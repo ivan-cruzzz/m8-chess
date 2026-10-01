@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# --- Секреты ---
+.env
+.env.*
+!.env.example
+
+# Тестовые артефакты / большие бинарники
+.npw-test-invoice.json
+*.traineddata
+
+# Android / iOS / Tauri сборки
+android/app/build
+android/.gradle
+android/build
+android/local.properties
+android/key.properties
+android/app/*.jks
+android/app/*.keystore
+ios/App/build
+src-tauri/target
+src-tauri/gen/schemas
+
+# Системное
+Thumbs.db
+
+# Coverage
+coverage

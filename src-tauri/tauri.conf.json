@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "M8",
+  "version": "1.0.0",
+  "identifier": "com.m8.app",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:7200",
+    "beforeDevCommand": "npm run dev -- --port 7200 --strictPort",
+    "beforeBuildCommand": "npm run build:tauri"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "M8 — Обучение шахматам",
+        "width": 480,
+        "height": 850,
+        "minWidth": 360,
+        "minHeight": 600,
+        "resizable": true,
+        "fullscreen": false,
+        "center": true,
+        "decorations": true
+      }
+    ],
+    "security": {
+      "csp": null,
+      "capabilities": []
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/256x256.png",
+      "icons/icon.ico"
+    ]
+  }
+}

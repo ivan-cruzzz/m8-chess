@@ -1,0 +1,1068 @@
+{
+  "puzzles": [
+    {
+      "id": "lp-0082f",
+      "fen": "r4rk1/2q2ppp/3pp3/4Pb1N/1p6/1p4Q1/PPP3PP/1K1RR3 w - - 0 22",
+      "solution": [
+        "Qxg7#"
+      ],
+      "hint": "Мат в один ход — найди решающий удар! Присмотрись к позиции короля.",
+      "theme": "Мат в 1",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 827,
+      "popularity": 100,
+      "gameUrl": "https://lichess.org/fHfmODEz/black#42"
+    },
+    {
+      "id": "lp-003AX",
+      "fen": "2r2rk1/5ppp/bq2p3/p2pP1N1/Pb1p2P1/1P2P2P/2QN4/2R1K2R w K - 0 19",
+      "solution": [
+        "Qxh7#"
+      ],
+      "hint": "Мат в один ход — найди решающий удар! Ищи двойной удар.",
+      "theme": "Мат в 1",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1001,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/kRgejRSt/black#36"
+    },
+    {
+      "id": "lp-002HE",
+      "fen": "1qr2rk1/1p1p1ppp/pB2p1n1/7n/2P1P3/1Q2NP1P/PP2BKPb/3R1R2 b - - 2 20",
+      "solution": [
+        "Qg3#"
+      ],
+      "hint": "Мат в один ход — найди решающий удар! Ищи двойной удар.",
+      "theme": "Мат в 1",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1116,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/U21EXYdv#39"
+    },
+    {
+      "id": "lp-004JD",
+      "fen": "3r4/R7/2p5/p1P2p2/1p4k1/nP2K3/P3NP2/8 b - - 4 41",
+      "solution": [
+        "Nc2#"
+      ],
+      "hint": "Мат в один ход — найди решающий удар! Сначала шах — потом главный ход.",
+      "theme": "Мат в 1",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1296,
+      "popularity": 91,
+      "gameUrl": "https://lichess.org/6vTeEc3x#81"
+    },
+    {
+      "id": "lp-001cr",
+      "fen": "8/3B2pp/p5k1/6P1/1ppp1K2/8/1P6/8 w - - 0 39",
+      "solution": [
+        "Be8#"
+      ],
+      "hint": "Мат в один ход — найди решающий удар! Не жалей материала — жертва окупится.",
+      "theme": "Мат в 1",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1582,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/7FFNwibw/black#76"
+    },
+    {
+      "id": "lp-003jb",
+      "fen": "r3kb1r/p4ppp/b3p3/2pq4/3Q4/4BN2/PPP2PPP/R3K2R w KQkq - 0 12",
+      "solution": [
+        "Qa4+",
+        "Bb5",
+        "Qxb5+"
+      ],
+      "hint": "Двойной удар: одна фигура нападает на две цели. Присмотрись к позиции короля.",
+      "theme": "Вилка",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 961,
+      "popularity": 95,
+      "gameUrl": "https://lichess.org/960EzUS0/black#22"
+    },
+    {
+      "id": "lp-003o0",
+      "fen": "r1bqk2r/pp1nbppp/3p4/1B1p4/3P1B2/5N2/PPP2PPP/R2QK2R b KQkq - 3 9",
+      "solution": [
+        "Qa5+",
+        "Qd2",
+        "Qxb5"
+      ],
+      "hint": "Двойной удар: одна фигура нападает на две цели. Ищи двойной удар.",
+      "theme": "Вилка",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1002,
+      "popularity": 90,
+      "gameUrl": "https://lichess.org/Ae0t9V1Z#17"
+    },
+    {
+      "id": "lp-001wr",
+      "fen": "r4rk1/p3ppbp/Pp1q1np1/3PpbB1/2B5/2N2P2/1PPQ2PP/3RR1K1 b - - 0 18",
+      "solution": [
+        "Qc5+",
+        "Kh1",
+        "Qxc4"
+      ],
+      "hint": "Двойной удар: одна фигура нападает на две цели. Ищи двойной удар.",
+      "theme": "Вилка",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1068,
+      "popularity": 97,
+      "gameUrl": "https://lichess.org/KnJ2mojX#35"
+    },
+    {
+      "id": "lp-0050w",
+      "fen": "5rk1/1p2p2p/p2p4/2pPb2R/2P1P3/1P1BKPrR/8/8 w - - 5 31",
+      "solution": [
+        "Rxg3+",
+        "Bxg3",
+        "Rg5+",
+        "Kf7",
+        "Rxg3"
+      ],
+      "hint": "Двойной удар: одна фигура нападает на две цели. Ищи двойной удар.",
+      "theme": "Вилка",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1131,
+      "popularity": 91,
+      "gameUrl": "https://lichess.org/QD8pUcTR/black#60"
+    },
+    {
+      "id": "lp-000Pw",
+      "fen": "6k1/5p1p/4p3/4q3/3n4/2Q3P1/PP1N1P1P/6K1 b - - 3 37",
+      "solution": [
+        "Ne2+",
+        "Kf1",
+        "Nxc3"
+      ],
+      "hint": "Двойной удар: одна фигура нападает на две цели. Не жалей материала — жертва окупится.",
+      "theme": "Вилка",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1547,
+      "popularity": 92,
+      "gameUrl": "https://lichess.org/au2lCK5o#73"
+    },
+    {
+      "id": "lp-005Bm",
+      "fen": "4rk2/p4q2/1p3Q1b/8/1p5N/2P1p3/P3P3/2K5 w - - 1 44",
+      "solution": [
+        "Ng6+",
+        "Kg8",
+        "Qh8#"
+      ],
+      "hint": "Используй связку — фигура не может уйти. Сначала шах — потом главный ход.",
+      "theme": "Связка",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1327,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/KKslCMev/black#86"
+    },
+    {
+      "id": "lp-009BH",
+      "fen": "3r3k/6p1/4Q3/4B3/1p3P2/4PKP1/3q4/8 w - - 18 52",
+      "solution": [
+        "Qh6+",
+        "Kg8",
+        "Qxg7#"
+      ],
+      "hint": "Используй связку — фигура не может уйти. Не жалей материала — жертва окупится.",
+      "theme": "Связка",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1413,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/QauOOpOY/black#102"
+    },
+    {
+      "id": "lp-00M1q",
+      "fen": "2r3k1/2r3p1/p3pqQ1/1p1p4/nP1P4/2P4R/P4PPP/2R3K1 w - - 1 31",
+      "solution": [
+        "Qh7+",
+        "Kf7",
+        "Rf3",
+        "Qxf3",
+        "gxf3"
+      ],
+      "hint": "Используй связку — фигура не может уйти. Не жалей материала — жертва окупится.",
+      "theme": "Связка",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1434,
+      "popularity": 91,
+      "gameUrl": "https://lichess.org/nsAQV9mj/black#60"
+    },
+    {
+      "id": "lp-003S3",
+      "fen": "1r3k1r/pNqnppb1/6pn/2p3Np/7P/2P2Q2/PP3PP1/R1B1K2R w KQ - 3 16",
+      "solution": [
+        "Ne6+",
+        "Kg8",
+        "Nxc7"
+      ],
+      "hint": "Используй связку — фигура не может уйти. Не жалей материала — жертва окупится.",
+      "theme": "Связка",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1494,
+      "popularity": 95,
+      "gameUrl": "https://lichess.org/Eu6S0GPA/black#30"
+    },
+    {
+      "id": "lp-00LNH",
+      "fen": "1k2r3/pp2r2p/2pqbpp1/3n4/3P1p2/1B3N1P/PPQB1PP1/1K1RR3 b - - 3 22",
+      "solution": [
+        "Bf5",
+        "Qxf5",
+        "gxf5"
+      ],
+      "hint": "Используй связку — фигура не может уйти. Не жалей материала — жертва окупится.",
+      "theme": "Связка",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1590,
+      "popularity": 100,
+      "gameUrl": "https://lichess.org/gVcbpusg#43"
+    },
+    {
+      "id": "lp-007tv",
+      "fen": "r3k1nr/1pp2ppp/1pnp4/4p1q1/2B1P3/3P1Q1P/PPP2PP1/R4RK1 w kq - 0 12",
+      "solution": [
+        "Qxf7+",
+        "Kd8",
+        "Qf8+",
+        "Kd7",
+        "Qxa8"
+      ],
+      "hint": "Сквозной удар: шах — и фигура позади короля падает. Ищи двойной удар.",
+      "theme": "Сквозной удар",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1119,
+      "popularity": 90,
+      "gameUrl": "https://lichess.org/ky7qZNjk/black#22"
+    },
+    {
+      "id": "lp-0039T",
+      "fen": "1r5r/p3kp2/4p2p/4P3/R4Pp1/6P1/P1P4P/4K2R b K - 2 25",
+      "solution": [
+        "Rb1+",
+        "Kf2",
+        "Rxh1",
+        "Rxa7+",
+        "Kf8"
+      ],
+      "hint": "Сквозной удар: шах — и фигура позади короля падает. Ищи двойной удар.",
+      "theme": "Сквозной удар",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1127,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/BrtVeJlj#49"
+    },
+    {
+      "id": "lp-00AB1",
+      "fen": "8/7Q/3p1kp1/1p6/2b5/2q4P/5PPK/8 w - - 0 37",
+      "solution": [
+        "Qh8+",
+        "Ke6",
+        "Qxc3"
+      ],
+      "hint": "Сквозной удар: шах — и фигура позади короля падает. Ищи двойной удар.",
+      "theme": "Сквозной удар",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1128,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/KQDr21Ph/black#72"
+    },
+    {
+      "id": "lp-001xl",
+      "fen": "8/4R3/p4kpp/3B4/5q2/8/5P1P/6K1 w - - 6 41",
+      "solution": [
+        "Rf7+",
+        "Ke5",
+        "Rxf4"
+      ],
+      "hint": "Сквозной удар: шах — и фигура позади короля падает. Ищи двойной удар.",
+      "theme": "Сквозной удар",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1131,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/bEQkfPQD/black#80"
+    },
+    {
+      "id": "lp-004mT",
+      "fen": "5Q2/8/1bk1p1p1/5p2/3p4/5qPK/7P/8 w - - 2 52",
+      "solution": [
+        "Qa8+",
+        "Kd6",
+        "Qxf3"
+      ],
+      "hint": "Сквозной удар: шах — и фигура позади короля падает. Сначала шах — потом главный ход.",
+      "theme": "Сквозной удар",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1331,
+      "popularity": 98,
+      "gameUrl": "https://lichess.org/Jqhi4ozb/black#102"
+    },
+    {
+      "id": "lp-008Y3",
+      "fen": "r5k1/1p1r1pp1/p3pnp1/2qN4/8/1Q5P/PP3PP1/3RR1K1 w - - 0 25",
+      "solution": [
+        "Nxf6+",
+        "gxf6",
+        "Rxd7"
+      ],
+      "hint": "Открой линию: уходящая фигура вскрывает нападение. Ищи двойной удар.",
+      "theme": "Открытый удар",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1055,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/jAILX5BH/black#48"
+    },
+    {
+      "id": "lp-00AdI",
+      "fen": "3r4/4kp1p/1PQ1p1p1/p3b3/1p2P2P/1P5K/6P1/8 b - - 2 36",
+      "solution": [
+        "Rd3+",
+        "g3",
+        "Rxg3+",
+        "Kh2",
+        "Rc3+"
+      ],
+      "hint": "Открой линию: уходящая фигура вскрывает нападение. Сначала шах — потом главный ход.",
+      "theme": "Открытый удар",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1254,
+      "popularity": 97,
+      "gameUrl": "https://lichess.org/WWyIGzPi#71"
+    },
+    {
+      "id": "lp-00Bul",
+      "fen": "rnbqk2r/pp3ppp/5n2/4N3/2p5/2P5/P1PPQPPP/R1B1K2R w KQkq - 0 9",
+      "solution": [
+        "Nc6+",
+        "Be6",
+        "Nxd8"
+      ],
+      "hint": "Открой линию: уходящая фигура вскрывает нападение. Не жалей материала — жертва окупится.",
+      "theme": "Открытый удар",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1401,
+      "popularity": 97,
+      "gameUrl": "https://lichess.org/70pObIpq/black#16"
+    },
+    {
+      "id": "lp-009zS",
+      "fen": "r3r1k1/1p3p1p/p1p3p1/8/6bP/Q3b1P1/PP2B3/R3K2R b KQ - 0 20",
+      "solution": [
+        "Bxe2",
+        "Kxe2",
+        "Bc5+",
+        "Kf3",
+        "Bxa3"
+      ],
+      "hint": "Открой линию: уходящая фигура вскрывает нападение. Не жалей материала — жертва окупится.",
+      "theme": "Открытый удар",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1405,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/YSoU6ySt#39"
+    },
+    {
+      "id": "lp-00AFG",
+      "fen": "r4rk1/5ppp/p3bp2/2q2N1Q/Ppp5/8/1PP2PPP/R2R2K1 w - - 0 22",
+      "solution": [
+        "Nh6+",
+        "gxh6",
+        "Qxc5"
+      ],
+      "hint": "Открой линию: уходящая фигура вскрывает нападение. Не жалей материала — жертва окупится.",
+      "theme": "Открытый удар",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1476,
+      "popularity": 99,
+      "gameUrl": "https://lichess.org/xpx24bwV/black#42"
+    },
+    {
+      "id": "lp-00CtS",
+      "fen": "Q7/5qk1/p2p4/b1p1pr2/P7/6P1/4KP1R/8 w - - 4 39",
+      "solution": [
+        "Qh8+",
+        "Kg6",
+        "Qh6#"
+      ],
+      "hint": "Комбинация из двух ходов ведёт к мату. Присмотрись к позиции короля.",
+      "theme": "Мат в 2",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 970,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/yKolw9vl/black#76"
+    },
+    {
+      "id": "lp-005nD",
+      "fen": "3rk2r/2qn2p1/p1Q1p3/3n3p/8/8/PP4PP/5R1K w k - 0 24",
+      "solution": [
+        "Qxe6+",
+        "Ne7",
+        "Qf7#"
+      ],
+      "hint": "Комбинация из двух ходов ведёт к мату. Ищи двойной удар.",
+      "theme": "Мат в 2",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1119,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/hlgaj6lV/black#46"
+    },
+    {
+      "id": "lp-006HV",
+      "fen": "1r6/5k2/2Q1pNp1/p5Pp/1p2P2P/2P4R/KP3P2/3q4 b - - 0 31",
+      "solution": [
+        "b3+",
+        "Ka3",
+        "Qa1#"
+      ],
+      "hint": "Комбинация из двух ходов ведёт к мату. Ищи двойной удар.",
+      "theme": "Мат в 2",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1159,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/ibb2c72C#61"
+    },
+    {
+      "id": "lp-009wR",
+      "fen": "1R2R3/p7/1p1k3p/1Pb5/P5p1/6P1/5r1P/7K b - - 7 41",
+      "solution": [
+        "Rf1+",
+        "Kg2",
+        "Rg1#"
+      ],
+      "hint": "Комбинация из двух ходов ведёт к мату. Сначала шах — потом главный ход.",
+      "theme": "Мат в 2",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1239,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/tBBaKL5q#81"
+    },
+    {
+      "id": "lp-000hf",
+      "fen": "r1bq3r/pp1nbkp1/2p1p2p/8/2BP4/1PN3P1/P3QP1P/3R1RK1 w - - 0 20",
+      "solution": [
+        "Qxe6+",
+        "Kf8",
+        "Qf7#"
+      ],
+      "hint": "Комбинация из двух ходов ведёт к мату. Не жалей материала — жертва окупится.",
+      "theme": "Мат в 2",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1530,
+      "popularity": 92,
+      "gameUrl": "https://lichess.org/71ygsFeE/black#38"
+    },
+    {
+      "id": "lp-04BBn",
+      "fen": "r5r1/1p1k1p2/p3b3/3Bb3/8/P2Q3q/1P3PP1/R4RK1 w - - 0 25",
+      "solution": [
+        "Bxe6+",
+        "Kxe6",
+        "Qxh3+"
+      ],
+      "hint": "Двойной шах — королю некуда бежать! Сначала шах — потом главный ход.",
+      "theme": "Двойной шах",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1333,
+      "popularity": 100,
+      "gameUrl": "https://lichess.org/ozbgYchS/black#48"
+    },
+    {
+      "id": "lp-038rm",
+      "fen": "7r/p6p/1b3Q1p/8/2qn1Nk1/5P2/PP6/R4RK1 b - - 0 27",
+      "solution": [
+        "Nxf3+",
+        "Kh1",
+        "Qxf4",
+        "Qxf4+",
+        "Kxf4"
+      ],
+      "hint": "Двойной шах — королю некуда бежать! Сначала шах — потом главный ход.",
+      "theme": "Двойной шах",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1341,
+      "popularity": 91,
+      "gameUrl": "https://lichess.org/ha6P9yhP#53"
+    },
+    {
+      "id": "lp-06BuX",
+      "fen": "4r3/5ppp/1pQrkn1q/3p4/3PP3/2K2P2/PPP4P/4R2R w - - 1 22",
+      "solution": [
+        "exd5+",
+        "Kf5",
+        "Qxd6",
+        "Rxe1",
+        "Rxe1"
+      ],
+      "hint": "Двойной шах — королю некуда бежать! Сначала шах — потом главный ход.",
+      "theme": "Двойной шах",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1360,
+      "popularity": 95,
+      "gameUrl": "https://lichess.org/DwBHEHIW/black#42"
+    },
+    {
+      "id": "lp-06IxM",
+      "fen": "4r3/1R4Pk/8/3p4/2nq3P/p7/PP6/K3R3 w - - 1 38",
+      "solution": [
+        "g8=Q+",
+        "Kxg8",
+        "Rxe8#"
+      ],
+      "hint": "Двойной шах — королю некуда бежать! Не жалей материала — жертва окупится.",
+      "theme": "Двойной шах",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1505,
+      "popularity": 97,
+      "gameUrl": "https://lichess.org/3iG6g26A/black#74"
+    },
+    {
+      "id": "lp-04kFZ",
+      "fen": "r2qr1k1/ppp2p1p/5pPB/8/6Q1/2P5/P1p3PP/bN3K1R w - - 0 20",
+      "solution": [
+        "gxh7+",
+        "Kxh7",
+        "Qg7#"
+      ],
+      "hint": "Двойной шах — королю некуда бежать! Не жалей материала — жертва окупится.",
+      "theme": "Двойной шах",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1559,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/FUA3FdpX/black#38"
+    },
+    {
+      "id": "lp-00J1Y",
+      "fen": "1q3r2/p5k1/1p2pbpp/2p5/2P1p3/2P2PQP/PP3P2/6RK w - - 0 30",
+      "solution": [
+        "Qxg6+",
+        "Kh8",
+        "Qxh6#"
+      ],
+      "hint": "Отвлеки защитника от ключевого поля. Ищи двойной удар.",
+      "theme": "Отвлечение",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1141,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/8onUzszE/black#58"
+    },
+    {
+      "id": "lp-00Zit",
+      "fen": "r3kb1r/ppp2pp1/3p4/1P2p3/2P3Qn/2N1P2q/PB1P1P1N/R4RK1 b kq - 0 15",
+      "solution": [
+        "Nf3+",
+        "Nxf3",
+        "Qxg4#"
+      ],
+      "hint": "Отвлеки защитника от ключевого поля. Ищи двойной удар.",
+      "theme": "Отвлечение",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1196,
+      "popularity": 91,
+      "gameUrl": "https://lichess.org/3L9d0QhX#29"
+    },
+    {
+      "id": "lp-004LZ",
+      "fen": "8/7R/5p2/p7/7P/2p5/3k2N1/1K6 b - - 0 48",
+      "solution": [
+        "c2+",
+        "Ka2",
+        "c1=Q",
+        "Rd7+",
+        "Ke2"
+      ],
+      "hint": "Отвлеки защитника от ключевого поля. Ищи двойной удар.",
+      "theme": "Отвлечение",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1197,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/drahwNdj#95"
+    },
+    {
+      "id": "lp-0068B",
+      "fen": "r1q3k1/3nbppp/pp2p3/4B3/8/2N2Q2/PPPR1PPP/6K1 w - - 1 19",
+      "solution": [
+        "Rxd7",
+        "Qxd7",
+        "Qxa8+"
+      ],
+      "hint": "Отвлеки защитника от ключевого поля. Не жалей материала — жертва окупится.",
+      "theme": "Отвлечение",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1419,
+      "popularity": 92,
+      "gameUrl": "https://lichess.org/LNdzAgWP/black#36"
+    },
+    {
+      "id": "lp-00DkJ",
+      "fen": "3r1bnr/2p2ppp/2bk4/R7/5P2/2N5/4N1PP/1R4K1 w - - 4 22",
+      "solution": [
+        "Rd1+",
+        "Ke7",
+        "Re5+",
+        "Kf6",
+        "Rxd8"
+      ],
+      "hint": "Отвлеки защитника от ключевого поля. Не жалей материала — жертва окупится.",
+      "theme": "Отвлечение",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1575,
+      "popularity": 92,
+      "gameUrl": "https://lichess.org/JJiGlqDg/black#42"
+    },
+    {
+      "id": "lp-05adP",
+      "fen": "4r1k1/5bp1/p4pBp/1p1p3P/8/4R3/PPP3P1/1K6 w - - 1 35",
+      "solution": [
+        "Rxe8+",
+        "Bxe8",
+        "Bxe8"
+      ],
+      "hint": "Освободи линию для удара. Присмотрись к позиции короля.",
+      "theme": "Освобождение линии",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 948,
+      "popularity": 90,
+      "gameUrl": "https://lichess.org/hebgeYOP/black#68"
+    },
+    {
+      "id": "lp-05Gv1",
+      "fen": "6k1/p1pb1ppp/6r1/2p5/Q1Pq1P2/NP3P2/P6P/4R2K w - - 1 25",
+      "solution": [
+        "Re8+",
+        "Bxe8",
+        "Qxe8#"
+      ],
+      "hint": "Освободи линию для удара. Присмотрись к позиции короля.",
+      "theme": "Освобождение линии",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 950,
+      "popularity": 98,
+      "gameUrl": "https://lichess.org/vTx38UJP/black#48"
+    },
+    {
+      "id": "lp-069H6",
+      "fen": "3r2k1/1r1P1pp1/7p/8/8/8/6PP/2RR3K w - - 1 35",
+      "solution": [
+        "Rc8",
+        "Rxd7",
+        "Rxd8+",
+        "Rxd8",
+        "Rxd8+"
+      ],
+      "hint": "Освободи линию для удара. Присмотрись к позиции короля.",
+      "theme": "Освобождение линии",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 980,
+      "popularity": 99,
+      "gameUrl": "https://lichess.org/36ZbdrWa/black#68"
+    },
+    {
+      "id": "lp-01GBu",
+      "fen": "5r1k/3p2bp/p4pp1/qp1Pr3/8/1Q4B1/PP2RPPP/4R1K1 b - - 0 23",
+      "solution": [
+        "Qxe1+",
+        "Rxe1",
+        "Rxe1#"
+      ],
+      "hint": "Освободи линию для удара. Сначала шах — потом главный ход.",
+      "theme": "Освобождение линии",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1260,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/t1gBJrWV#45"
+    },
+    {
+      "id": "lp-03JmU",
+      "fen": "r3k1nr/1bq2ppp/3bp3/1p2R3/5B2/P1N5/1P3PPP/R2Q2K1 w kq - 0 15",
+      "solution": [
+        "Nxb5",
+        "Bxe5",
+        "Nxc7+",
+        "Bxc7",
+        "Bxc7"
+      ],
+      "hint": "Освободи линию для удара. Сначала шах — потом главный ход.",
+      "theme": "Освобождение линии",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1384,
+      "popularity": 95,
+      "gameUrl": "https://lichess.org/INAIGD4C/black#28"
+    },
+    {
+      "id": "lp-01X6J",
+      "fen": "r1b1qknQ/6p1/6P1/p2p1NR1/5P2/1P2p3/P1P4P/4R2K b - - 0 32",
+      "solution": [
+        "Qe4+",
+        "Kg1",
+        "Bxf5"
+      ],
+      "hint": "Промежуточный ход с шахом меняет картину. Сначала шах — потом главный ход.",
+      "theme": "Промежуточный ход",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1315,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/rQ1CiKNS#63"
+    },
+    {
+      "id": "lp-0155R",
+      "fen": "4r1k1/pp2qR2/3p2pB/2nP4/P1P5/2P5/5QPP/4rRK1 b - - 0 24",
+      "solution": [
+        "Rxf1+",
+        "Kxf1",
+        "Qxf7",
+        "Qxf7+",
+        "Kxf7"
+      ],
+      "hint": "Промежуточный ход с шахом меняет картину. Не жалей материала — жертва окупится.",
+      "theme": "Промежуточный ход",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1438,
+      "popularity": 99,
+      "gameUrl": "https://lichess.org/Z7m6cvFe#47"
+    },
+    {
+      "id": "lp-00QnO",
+      "fen": "1k1r1r2/pp4p1/6q1/2Qp4/5NP1/2P4p/PPN4P/R4R1K b - - 0 30",
+      "solution": [
+        "Qe4+",
+        "Kg1",
+        "Rxf4"
+      ],
+      "hint": "Промежуточный ход с шахом меняет картину. Не жалей материала — жертва окупится.",
+      "theme": "Промежуточный ход",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1470,
+      "popularity": 92,
+      "gameUrl": "https://lichess.org/9GENZopF#59"
+    },
+    {
+      "id": "lp-01tjv",
+      "fen": "4rr1k/2p3pp/p2P4/1p3p2/1P4P1/1BP1q2R/P4QP1/R5K1 b - - 0 25",
+      "solution": [
+        "Qxf2+",
+        "Kxf2",
+        "fxg4+",
+        "Kg1",
+        "gxh3"
+      ],
+      "hint": "Промежуточный ход с шахом меняет картину. Не жалей материала — жертва окупится.",
+      "theme": "Промежуточный ход",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1496,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/HIXIuFaM#49"
+    },
+    {
+      "id": "lp-01jhf",
+      "fen": "2kr2nr/ppp2ppp/3pb3/q7/7Q/PBNnB2P/1PP3P1/R4K1R w - - 0 16",
+      "solution": [
+        "Bxe6+",
+        "fxe6",
+        "cxd3"
+      ],
+      "hint": "Промежуточный ход с шахом меняет картину. Не жалей материала — жертва окупится.",
+      "theme": "Промежуточный ход",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1569,
+      "popularity": 92,
+      "gameUrl": "https://lichess.org/fVJJYXzY/black#30"
+    },
+    {
+      "id": "lp-00O9a",
+      "fen": "1k3r2/q5r1/2Qp3p/3Bp3/2N1P1p1/P7/1PP2PPP/R5K1 b - - 13 35",
+      "solution": [
+        "Qxf2+",
+        "Kh1",
+        "Qf1+",
+        "Rxf1",
+        "Rxf1#"
+      ],
+      "hint": "Жертва ведёт к победной атаке. Присмотрись к позиции короля.",
+      "theme": "Жертва",
+      "difficulty": 1,
+      "xp": 10,
+      "rating": 985,
+      "popularity": 91,
+      "gameUrl": "https://lichess.org/t6wbqTty#69"
+    },
+    {
+      "id": "lp-00LNB",
+      "fen": "kr6/1pR4p/p4R2/n7/P3p3/3rB3/6PP/6K1 w - - 1 39",
+      "solution": [
+        "Rxa6+",
+        "bxa6",
+        "Ra7#"
+      ],
+      "hint": "Жертва ведёт к победной атаке. Ищи двойной удар.",
+      "theme": "Жертва",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1081,
+      "popularity": 98,
+      "gameUrl": "https://lichess.org/MQYDGoEM/black#76"
+    },
+    {
+      "id": "lp-00OCQ",
+      "fen": "1rr3k1/5p1p/p5pQ/4p3/4q3/B1P1P3/PP1R1PPP/2KR4 b - - 0 27",
+      "solution": [
+        "Rxc3+",
+        "bxc3",
+        "Rb1#"
+      ],
+      "hint": "Жертва ведёт к победной атаке. Ищи двойной удар.",
+      "theme": "Жертва",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1090,
+      "popularity": 98,
+      "gameUrl": "https://lichess.org/kcUnWeDs#53"
+    },
+    {
+      "id": "lp-00761",
+      "fen": "3r2k1/1b4bR/p2P2p1/3p2N1/2p5/2P2N2/PP6/2K5 w - - 0 29",
+      "solution": [
+        "Rxg7+",
+        "Kxg7",
+        "Ne6+",
+        "Kg8",
+        "Nxd8"
+      ],
+      "hint": "Жертва ведёт к победной атаке. Не жалей материала — жертва окупится.",
+      "theme": "Жертва",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1401,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/vu70Maig/black#56"
+    },
+    {
+      "id": "lp-00GVf",
+      "fen": "5k2/3b2q1/pn4p1/1rp2p2/8/8/1P2Q1P1/1K2R2R w - - 4 33",
+      "solution": [
+        "Rh8+",
+        "Qxh8",
+        "Qe7+",
+        "Kg8",
+        "Qd8+"
+      ],
+      "hint": "Жертва ведёт к победной атаке. Не жалей материала — жертва окупится.",
+      "theme": "Жертва",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1548,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/sTFSNjA5/black#64"
+    },
+    {
+      "id": "lp-00d9q",
+      "fen": "1r3r2/Q1qk3p/2pp1npb/2p2P2/8/2N5/PP3PPP/4RRK1 w - - 1 20",
+      "solution": [
+        "Re7+",
+        "Kxe7",
+        "Qxc7+"
+      ],
+      "hint": "Завлеки фигуру на невыгодное поле. Ищи двойной удар.",
+      "theme": "Завлечение",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1139,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/kbUk4cWh/black#38"
+    },
+    {
+      "id": "lp-00ouE",
+      "fen": "2r5/2r3k1/1p2Qp1p/p2p2p1/3P4/4P1P1/PPq2P1R/KR6 b - - 0 30",
+      "solution": [
+        "Qxb1+",
+        "Kxb1",
+        "Rc1#"
+      ],
+      "hint": "Завлеки фигуру на невыгодное поле. Сначала шах — потом главный ход.",
+      "theme": "Завлечение",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1325,
+      "popularity": 97,
+      "gameUrl": "https://lichess.org/ZjaFn424#59"
+    },
+    {
+      "id": "lp-00aDl",
+      "fen": "r5k1/1p3p2/2p1ppp1/3p4/2nP4/1QB4P/rPP1BPP1/qNKR3R b - - 4 22",
+      "solution": [
+        "Qxb1+",
+        "Kxb1",
+        "Ra1#"
+      ],
+      "hint": "Завлеки фигуру на невыгодное поле. Сначала шах — потом главный ход.",
+      "theme": "Завлечение",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1372,
+      "popularity": 95,
+      "gameUrl": "https://lichess.org/pc79SSEd#43"
+    },
+    {
+      "id": "lp-00PUc",
+      "fen": "3r3k/pp4bp/3Bn1p1/7n/8/8/PP3P1K/3R1RN1 b - - 2 27",
+      "solution": [
+        "Rxd6",
+        "Rxd6",
+        "Be5+",
+        "Kh1",
+        "Bxd6"
+      ],
+      "hint": "Завлеки фигуру на невыгодное поле. Сначала шах — потом главный ход.",
+      "theme": "Завлечение",
+      "difficulty": 3,
+      "xp": 30,
+      "rating": 1394,
+      "popularity": 96,
+      "gameUrl": "https://lichess.org/F6OhRxfl#53"
+    },
+    {
+      "id": "lp-00Rmm",
+      "fen": "2rr2k1/5ppp/p7/1p1nP3/1B1P1PP1/PK5P/2R5/3R4 b - - 5 30",
+      "solution": [
+        "Rxc2",
+        "Kxc2",
+        "Ne3+",
+        "Kd3",
+        "Nxd1"
+      ],
+      "hint": "Завлеки фигуру на невыгодное поле. Не жалей материала — жертва окупится.",
+      "theme": "Завлечение",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1415,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/MjgWCyPg#59"
+    },
+    {
+      "id": "lp-001wR",
+      "fen": "6nr/p4p1p/k1p5/1p6/1QN5/2P1P3/4KPqP/8 w - - 0 27",
+      "solution": [
+        "Qa5+",
+        "Kb7",
+        "Nd6+",
+        "Kb8",
+        "Qd8#"
+      ],
+      "hint": "Точная техника эндшпиля решает исход. Ищи двойной удар.",
+      "theme": "Эндшпиль",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1152,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/ruvbd9JW/black#52"
+    },
+    {
+      "id": "lp-00GY4",
+      "fen": "3k2r1/pR5R/3r4/4p3/7q/3Pn1PP/PP5K/8 w - - 0 28",
+      "solution": [
+        "Rb8#"
+      ],
+      "hint": "Точная техника эндшпиля решает исход. Ищи двойной удар.",
+      "theme": "Эндшпиль",
+      "difficulty": 2,
+      "xp": 20,
+      "rating": 1167,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/uDdpetkC/black#54"
+    },
+    {
+      "id": "lp-00KHR",
+      "fen": "8/6pk/1Q1p2n1/4p3/2P3P1/P2PPK1P/1B6/4q3 b - - 2 35",
+      "solution": [
+        "Nh4+",
+        "Ke4",
+        "Qh1#"
+      ],
+      "hint": "Точная техника эндшпиля решает исход. Не жалей материала — жертва окупится.",
+      "theme": "Эндшпиль",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1427,
+      "popularity": 93,
+      "gameUrl": "https://lichess.org/m54DAZPv#69"
+    },
+    {
+      "id": "lp-00CWE",
+      "fen": "3r4/1p4p1/2pB1bBp/p1Pk4/3rp3/P7/1PK2P2/4R3 w - - 2 32",
+      "solution": [
+        "Bf7#"
+      ],
+      "hint": "Точная техника эндшпиля решает исход. Не жалей материала — жертва окупится.",
+      "theme": "Эндшпиль",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1483,
+      "popularity": 94,
+      "gameUrl": "https://lichess.org/VCQ4NAd0/black#62"
+    },
+    {
+      "id": "lp-00IPp",
+      "fen": "4Q3/6pk/p3p2p/5P2/1p1P4/4q2P/2B1n2B/7K b - - 0 35",
+      "solution": [
+        "Qf3#"
+      ],
+      "hint": "Точная техника эндшпиля решает исход. Не жалей материала — жертва окупится.",
+      "theme": "Эндшпиль",
+      "difficulty": 4,
+      "xp": 40,
+      "rating": 1537,
+      "popularity": 90,
+      "gameUrl": "https://lichess.org/JKNcTJw1#69"
+    }
+  ]
+}
