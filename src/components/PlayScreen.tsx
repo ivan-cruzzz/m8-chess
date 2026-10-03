@@ -14,7 +14,7 @@ interface PlayScreenProps {
 
 const FILES = 'abcdefgh';
 const RANKS = '87654321';
-const pieceImg = (color: string, type: string) => `/pieces/${color}${type.toUpperCase()}.svg`;
+const pieceImg = (color: string, type: string) => `pieces/${color}${type.toUpperCase()}.svg`;
 
 type Mode = 'menu' | 'ai' | 'hotseat';
 

@@ -21,7 +21,7 @@ const SELECTED = 'rgba(20, 85, 150, 0.5)';
 const LEGAL_MOVE = 'rgba(20, 85, 150, 0.5)';
 const CHECK = 'radial-gradient(ellipse at center, rgba(255,0,0,0.5) 0%, rgba(255,0,0,0.2) 70%, rgba(255,0,0,0) 100%)';
 
-const pieceImg = (color: string, type: string) => `/pieces/${color}${type.toUpperCase()}.svg`;
+const pieceImg = (color: string, type: string) => `pieces/${color}${type.toUpperCase()}.svg`;
 
 function getMoveUci(san: string, game: Chess): { from: string; to: string; promotion?: string } | null {
   const moves = game.moves({ verbose: true });

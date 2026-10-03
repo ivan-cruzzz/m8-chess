@@ -2,7 +2,7 @@ import { Chess } from 'chess.js';
 
 const FILES = 'abcdefgh';
 const RANKS = '87654321';
-const pieceImg = (color: string, type: string) => `/pieces/${color}${type.toUpperCase()}.svg`;
+const pieceImg = (color: string, type: string) => `pieces/${color}${type.toUpperCase()}.svg`;
 
 interface StaticBoardProps {
   fen: string;

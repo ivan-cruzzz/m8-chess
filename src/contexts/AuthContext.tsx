@@ -39,6 +39,14 @@ interface StoredUser {
 
 const toHex = (arr: Uint8Array) => Array.from(arr).map((b) => b.toString(16).padStart(2, '0')).join('');
 
+// Встроенный админ: вход работает даже без сети и без Supabase
+const LOCAL_ADMIN = {
+  email: 'admin@m8chess.com',
+  password: 'M8-Admin-2026!k9Rz',
+  id: 'local-admin',
+  username: 'admin',
+};
+
 async function hashPassword(password: string, saltHex?: string): Promise<string> {
   const salt = saltHex
     ? Uint8Array.from(saltHex.match(/.{2}/g)!.map((b) => parseInt(b, 16)))
@@ -84,6 +92,12 @@ function saveSession(user: User | null) {
 const usernameFromEmail = (email: string) => email.split('@')[0] || 'player';
 
 async function localLogin(email: string, password: string): Promise<AuthResult> {
+  // Встроенный админ — приоритетный вход в обход сети и Supabase
+  if (email === LOCAL_ADMIN.email && password === LOCAL_ADMIN.password) {
+    const sessionUser: User = { id: LOCAL_ADMIN.id, username: LOCAL_ADMIN.username, email: LOCAL_ADMIN.email };
+    saveSession(sessionUser);
+    return { ok: true };
+  }
   const users = loadUsers();
   const found = users.find((u) => u.email === email);
   if (!found) return { ok: false, error: 'invalid_credentials' };
@@ -166,11 +180,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(async (email: string, password: string): Promise<AuthResult> => {
     if (supabase) {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return { ok: false, error: error.message };
+      // Supabase-сессия подхватится в onAuthStateChange; дополнительно ставим user сразу
+      const u = data.user;
+      if (u) {
+        setUser({
+          id: u.id,
+          username: (u.user_metadata?.username as string) || usernameFromEmail(u.email ?? ''),
+          email: u.email ?? '',
+        });
+      }
       return { ok: true };
     }
-    return localLogin(email, password);
+    const res = await localLogin(email, password);
+    if (res.ok) setUser(loadSession()); // локальный вход: user не обновится сам
+    return res;
   }, []);
 
   const register = useCallback(async (username: string, email: string, password: string): Promise<AuthResult> => {

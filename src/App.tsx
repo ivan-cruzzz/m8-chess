@@ -18,33 +18,26 @@ import { LessonMap } from './components/LessonMap';
 import { LessonPath } from './components/LessonPath';
 import { ChessPuzzle } from './components/ChessPuzzle';
 import { Profile } from './components/Profile';
-import { Onboarding } from './components/Onboarding';
 import { Confetti } from './components/Confetti';
-import { AuthScreen } from './components/AuthScreen';
 import { PremiumScreen } from './components/PremiumScreen';
 import { PlayScreen } from './components/PlayScreen';
 import { DailyScreen } from './components/DailyScreen';
 import { PracticeScreen } from './components/PracticeScreen';
 import { ReviewScreen } from './components/ReviewScreen';
 import { TheoryModal } from './components/TheoryModal';
-import { BeginnerCourse } from './components/BeginnerCourse';
 import { TransferCard } from './components/TransferCard';
+import { BeginnerCourse } from './components/BeginnerCourse';
 import { getPuzzleById } from './data/puzzles';
 import { lessons } from './data/lessons';
 
 type Screen = 'map' | 'lesson' | 'puzzle' | 'play' | 'daily' | 'practice' | 'review' | 'profile' | 'settings' | 'premium';
 
-const ONBOARDING_KEY = 'chessup-onboarding-done';
-const COURSE_KEY = 'chessup-course-done';
-
 function App() {
   const { t } = useI18n();
-  const { isLoggedIn } = useAuth();
   const { isPremium } = useSubscription();
   const [screen, setScreen] = useState<Screen>('map');
   const [currentPuzzleId, setCurrentPuzzleId] = useState<string | null>(null);
   const [currentLessonId, setCurrentLessonId] = useState<string | null>(null);
-  const [showOnboarding, setShowOnboarding] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [xpFloat, setXpFloat] = useState<{ amount: number; key: number } | null>(null);
   const [levelUp, setLevelUp] = useState<number | null>(null);
@@ -57,25 +50,6 @@ function App() {
     noteExternalSolved, notePuzzleFailed, noteSurvivalScore,
     recordMistake, removeMistake, addGame, resetProgress, replaceProgress,
   } = useProgress();
-
-  // Курс новичка — один раз для новых пользователей
-  useEffect(() => {
-    if (loaded && isLoggedIn && progress.completedPuzzles.length === 0 && !localStorage.getItem(COURSE_KEY)) {
-      setShowCourse(true);
-    }
-  }, [loaded, isLoggedIn, progress.completedPuzzles.length]);
-
-  useEffect(() => {
-    const done = localStorage.getItem(ONBOARDING_KEY);
-    if (!done && loaded && isLoggedIn) {
-      setShowOnboarding(true);
-    }
-  }, [loaded, isLoggedIn]);
-
-  const handleOnboardingComplete = () => {
-    localStorage.setItem(ONBOARDING_KEY, 'true');
-    setShowOnboarding(false);
-  };
 
   // Duolingo-флоу: урок → тропинка задач → задача → возврат на тропинку
   const handleSelectLesson = (lessonId: string) => {
@@ -152,11 +126,6 @@ function App() {
   const currentLesson = currentLessonId ? lessons.find((l) => l.id === currentLessonId) : null;
   const currentPuzzle = currentLesson && currentPuzzleId ? getPuzzleById(currentPuzzleId) : null;
 
-  // Auth gate
-  if (!isLoggedIn) {
-    return <AuthScreen />;
-  }
-
   // Loading
   if (!loaded) {
     return (
@@ -167,11 +136,6 @@ function App() {
         </div>
       </div>
     );
-  }
-
-  // Onboarding
-  if (showOnboarding) {
-    return <Onboarding onComplete={handleOnboardingComplete} />;
   }
 
   return (
@@ -363,7 +327,7 @@ function App() {
         )}
 
         {screen === 'settings' && (
-          <SettingsScreen onNavigate={setScreen} progress={progress} onImportProgress={replaceProgress} />
+          <SettingsScreen onNavigate={setScreen} progress={progress} onImportProgress={replaceProgress} onOpenCourse={() => setShowCourse(true)} />
         )}
       </main>
 
@@ -372,12 +336,7 @@ function App() {
         <TheoryModal theme={currentLesson.theme} onClose={() => setShowTheory(false)} />
       )}
       {showCourse && (
-        <BeginnerCourse
-          onDone={() => {
-            localStorage.setItem(COURSE_KEY, 'true');
-            setShowCourse(false);
-          }}
-        />
+        <BeginnerCourse onDone={() => setShowCourse(false)} />
       )}
 
       {/* Bottom Nav */}
@@ -446,10 +405,12 @@ function SettingsScreen({
   onNavigate,
   progress,
   onImportProgress,
+  onOpenCourse,
 }: {
   onNavigate: (s: Screen) => void;
   progress: import('./types').UserProgress;
   onImportProgress: (data: Partial<import('./types').UserProgress>) => void;
+  onOpenCourse?: () => void;
 }) {
   const { t, lang, setLang } = useI18n();
   const { theme, setTheme } = useTheme();
@@ -556,6 +517,22 @@ function SettingsScreen({
 
       {/* Transfer */}
       <TransferCard progress={progress} onImport={onImportProgress} />
+
+      {/* Курс новичка */}
+      {onOpenCourse && (
+        <button
+          onClick={onOpenCourse}
+          className="w-full mb-6 rounded-2xl border-2 p-4 flex items-center gap-3 text-left transition-transform hover:scale-[1.01] active:scale-[0.98]"
+          style={{ borderColor: 'var(--border-color)', background: 'var(--bg-secondary)' }}
+        >
+          <span className="text-2xl" aria-hidden="true">🎓</span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('course')}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('courseStart')}</p>
+          </div>
+          <span className="text-gold font-bold">→</span>
+        </button>
+      )}
 
       {/* Logout */}
       <button

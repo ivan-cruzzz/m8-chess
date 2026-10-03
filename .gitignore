@@ -49,3 +49,10 @@ Thumbs.db
 
 # Coverage
 coverage
+
+# generated
+nul
+dist-offline/
+.netlify/
+docs/screens/
+release/
