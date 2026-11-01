@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NotebookPen, Sparkles, ArrowRight, Swords, BadgeCheck } from 'lucide-react';
+import { NotebookPen, Sparkles, ArrowRight, Swords, BadgeCheck, BarChart3 } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
@@ -11,9 +11,11 @@ interface ProfileProps {
   progress: UserProgress;
   onReset: () => void;
   onOpenReview?: () => void;
+  /** Открыть экран «Моя статистика» */
+  onOpenStats?: () => void;
 }
 
-export function Profile({ progress, onReset, onOpenReview }: ProfileProps) {
+export function Profile({ progress, onReset, onOpenReview, onOpenStats }: ProfileProps) {
   const { t } = useI18n();
   const { user } = useAuth();
   const [verified, setVerified] = useState(false);
@@ -118,6 +120,23 @@ export function Profile({ progress, onReset, onOpenReview }: ProfileProps) {
       <div className="mb-4">
         <StreakStrip progress={progress} />
       </div>
+
+      {/* Моя статистика — вход */}
+      {onOpenStats && (
+        <button
+          onClick={onOpenStats}
+          className="w-full glass-card p-4 mb-4 flex items-center gap-3 text-left transition-transform active:scale-[0.98]"
+        >
+          <span className="text-gold shrink-0" aria-hidden="true">
+            <BarChart3 size={24} strokeWidth={2.2} />
+          </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold text-ink">{t('statsOpen')}</p>
+            <p className="text-caption text-muted">{t('statsOpenDesc')}</p>
+          </div>
+          <ArrowRight size={18} strokeWidth={2.4} className="text-gold shrink-0" aria-hidden="true" />
+        </button>
+      )}
 
       {/* Тетрадь ошибок — вход */}
       {onOpenReview && (

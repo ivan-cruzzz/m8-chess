@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Bot, Users, Flag } from 'lucide-react';
+import { Bot, Users, Flag, Undo2, RotateCcw } from 'lucide-react';
 import { Chess } from 'chess.js';
 import { useI18n } from '../contexts/I18nContext';
 import { useEngine } from '../hooks/useEngine';
@@ -16,7 +16,7 @@ const FILES = 'abcdefgh';
 const RANKS = '87654321';
 const pieceImg = (color: string, type: string) => `pieces/${color}${type.toUpperCase()}.svg`;
 
-type Mode = 'menu' | 'ai' | 'hotseat';
+type Mode = 'menu' | 'ai' | 'hotseat' | 'hotseatSetup';
 
 export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
   const { t } = useI18n();
@@ -31,8 +31,15 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
   const [finished, setFinished] = useState<null | 'w' | 'b' | 'draw'>(null);
   const [viewGame, setViewGame] = useState<GameRecord | null>(null);
   const [viewIdx, setViewIdx] = useState(0);
+  // Hotseat: имена сторон (пустое имя → дефолт из словаря) и счёт серии W:B:D сессии
+  const [whiteName, setWhiteName] = useState('');
+  const [blackName, setBlackName] = useState('');
+  const [series, setSeries] = useState({ w: 0, b: 0, d: 0 });
   const gameRef = useRef(new Chess());
   const recordedRef = useRef(false);
+
+  const whiteLabel = whiteName.trim() || t('hotseatWhiteDefault');
+  const blackLabel = blackName.trim() || t('hotseatBlackDefault');
 
   const startGame = (m: Mode) => {
     gameRef.current = new Chess();
@@ -46,6 +53,12 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
 
   const finish = useCallback((result: 'w' | 'b' | 'draw') => {
     setFinished(result);
+    // Серия hotseat ведётся до выхода из режима (сброс — при возврате в меню)
+    if (mode === 'hotseat') {
+      setSeries((s) =>
+        result === 'draw' ? { ...s, d: s.d + 1 } : result === 'w' ? { ...s, w: s.w + 1 } : { ...s, b: s.b + 1 }
+      );
+    }
     if (!recordedRef.current) {
       recordedRef.current = true;
       onGameFinished({ mode: mode === 'ai' ? 'ai' : 'hotseat', level: mode === 'ai' ? level : undefined, color: mode === 'ai' ? color : undefined, result, moves: [...sanRef.current] });
@@ -145,16 +158,34 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
     finish(mode === 'ai' ? (color === 'w' ? 'b' : 'w') : gameRef.current.turn() === 'w' ? 'b' : 'w');
   };
 
-  const orientation = mode === 'ai' ? (color === 'w' ? 'white' : 'black') : 'white';
+  /** Отмена последнего хода — только в hotseat (против ИИ отмены нет) */
+  const undoMove = () => {
+    if (mode !== 'hotseat' || finished || san.length === 0) return;
+    gameRef.current.undo();
+    setFen(gameRef.current.fen());
+    setSan((s) => s.slice(0, -1));
+    setSelected(null);
+  };
+
+  /** Реванш: та же пара имён и та же серия, доска заново */
+  const rematch = () => startGame('hotseat');
+
+  const g2 = new Chess(fen);
+  // Автопереворот: в hotseat доска всегда смотрит на сторону, чей сейчас ход
+  const orientation = mode === 'ai' ? (color === 'w' ? 'white' : 'black')
+    : mode === 'hotseat' ? (g2.turn() === 'w' ? 'white' : 'black')
+    : 'white';
   const renderRanks = orientation === 'white' ? RANKS.split('') : RANKS.split('').reverse();
   const renderFiles = orientation === 'white' ? FILES.split('') : FILES.split('').reverse();
-  const g2 = new Chess(fen);
   const legalTargets = selected ? g2.moves({ square: selected as never, verbose: true }).map((m) => m.to as string) : [];
   const lastMove = san.length ? (() => { const gg = new Chess(); let last = null as null | { from: string; to: string }; for (const s of san) { last = gg.move(s) as never; } return last; })() : null;
+  const topLabel = orientation === 'white' ? blackLabel : whiteLabel;
+  const bottomLabel = orientation === 'white' ? whiteLabel : blackLabel;
+  const topActive = orientation === 'white' ? g2.turn() === 'b' : g2.turn() === 'w';
 
   const resultText = finished === 'draw' ? t('draw') : mode === 'ai'
     ? (finished === color ? `🏆 ${t('won')}` : `💀 ${t('lost')}`)
-    : `🏆 ${finished === 'w' ? t('playWhite') : t('playBlack')}`;
+    : `🏆 ${finished === 'w' ? whiteLabel : blackLabel}`;
 
   /* ---------- Просмотр партии из истории ---------- */
   const openGame = (rec: GameRecord) => {
@@ -224,7 +255,7 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
           </div>
 
           <button
-            onClick={() => startGame('hotseat')}
+            onClick={() => setMode('hotseatSetup')}
             className="glass-card p-5 text-left font-bold w-full flex items-center gap-2 text-ink"
           >
             <Users size={20} strokeWidth={2.2} className="text-muted" aria-hidden="true" />
@@ -266,6 +297,55 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
     );
   }
 
+  /* ---------- Hotseat: имена сторон ---------- */
+  if (mode === 'hotseatSetup') {
+    return (
+      <div className="w-full max-w-md mx-auto px-4 py-8 animate-fade-in">
+        <button onClick={() => setMode('menu')} className="text-sm mb-4" style={{ color: 'var(--text-muted)' }}>
+          {t('back')}
+        </button>
+        <h2 className="display-title text-center mb-2" style={{ color: 'var(--text-primary)' }}>{t('playHotseat')}</h2>
+        <p className="text-sm text-center mb-8" style={{ color: 'var(--text-muted)' }}>{t('hotseatNames')}</p>
+
+        <div className="glass-card p-5 mb-6">
+          <label className="block mb-4">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted flex items-center gap-1.5 mb-1.5">
+              ♔ {t('hotseatWhiteDefault')}
+            </span>
+            <input
+              value={whiteName}
+              onChange={(e) => setWhiteName(e.target.value)}
+              placeholder={t('hotseatNamePlaceholder')}
+              maxLength={16}
+              className="w-full px-3 py-2.5 rounded-xl text-sm outline-none border-2 bg-transparent"
+              style={{ borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
+            />
+          </label>
+          <label className="block mb-5">
+            <span className="text-xs font-bold uppercase tracking-wide text-muted flex items-center gap-1.5 mb-1.5">
+              ♚ {t('hotseatBlackDefault')}
+            </span>
+            <input
+              value={blackName}
+              onChange={(e) => setBlackName(e.target.value)}
+              placeholder={t('hotseatNamePlaceholder')}
+              maxLength={16}
+              className="w-full px-3 py-2.5 rounded-xl text-sm outline-none border-2 bg-transparent"
+              style={{ borderColor: 'var(--border-color)', color: 'var(--text-primary)' }}
+            />
+          </label>
+          <button
+            onClick={() => startGame('hotseat')}
+            className="w-full py-3.5 rounded-xl font-bold"
+            style={{ background: 'linear-gradient(135deg, #d4a017, #f97316)', color: '#fff', boxShadow: '0 8px 18px -6px rgba(245,158,11,0.4)' }}
+          >
+            {t('hotseatStart')}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   /* ---------- Просмотр истории ---------- */
   if (viewGame && viewFen) {
     return (
@@ -291,7 +371,13 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
   return (
     <div className="w-full max-w-md mx-auto px-4 py-6 animate-fade-in">
       <div className="flex items-center justify-between mb-4">
-        <button onClick={() => { setMode('menu'); }} className="text-sm" style={{ color: 'var(--text-muted)' }}>{t('back')}</button>
+        <button
+          onClick={() => { if (mode === 'hotseat') setSeries({ w: 0, b: 0, d: 0 }); setMode('menu'); }}
+          className="text-sm"
+          style={{ color: 'var(--text-muted)' }}
+        >
+          {t('back')}
+        </button>
         <span className="flex items-center gap-1.5 text-caption font-semibold text-muted">
           {mode === 'ai' ? (
             <>
@@ -301,7 +387,8 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
           ) : (
             <>
               <Users size={15} strokeWidth={2.2} aria-hidden="true" />
-              {t('playHotseat')}
+              {/* Счёт серии W:B:D — ведётся до выхода из hotseat */}
+              {t('hotseatSeries')} {series.w}:{series.b}:{series.d}
             </>
           )}
         </span>
@@ -310,6 +397,14 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
           {t('resign')}
         </button>
       </div>
+
+      {/* Имена сторон у доски (только hotseat): верхняя плашка — дальняя сторона */}
+      {mode === 'hotseat' && (
+        <div className="max-w-[400px] mx-auto mb-2 flex items-center gap-1.5">
+          <span aria-hidden="true" className="text-sm">{topActive ? '●' : '○'}</span>
+          <span className={`text-sm ${topActive ? 'font-bold text-ink' : 'text-muted'}`}>{topLabel}</span>
+        </div>
+      )}
 
       <div className="max-w-[400px] mx-auto mb-3">
         <div
@@ -370,6 +465,14 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
         </div>
       </div>
 
+      {/* Имя нижней стороны + ход */}
+      {mode === 'hotseat' && !finished && (
+        <div className="max-w-[400px] mx-auto mb-2 flex items-center gap-1.5">
+          <span aria-hidden="true" className="text-sm text-gold">●</span>
+          <span className="text-sm font-bold text-ink">{bottomLabel}</span>
+        </div>
+      )}
+
       {/* Статус */}
       <div className="text-center mb-3 text-sm font-bold text-ink flex items-center justify-center gap-2">
         {finished
@@ -380,6 +483,18 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
           ? `${g2.turn() === 'w' ? '♔' : '♚'} ${t('yourMove')}`
           : t('yourMove')}
       </div>
+
+      {/* Отмена хода — только в hotseat, пока партия не завершена */}
+      {mode === 'hotseat' && !finished && (
+        <button
+          onClick={undoMove}
+          disabled={san.length === 0}
+          className="btn btn-secondary w-full py-3 mb-3 disabled:opacity-40"
+        >
+          <Undo2 size={18} strokeWidth={2.4} aria-hidden="true" />
+          {t('hotseatUndo')}
+        </button>
+      )}
 
       {/* Ходы */}
       <div className="glass-card p-3 max-h-28 overflow-y-auto no-scrollbar mb-4">
@@ -394,9 +509,16 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
         </div>
       </div>
 
+      {finished && mode === 'hotseat' && (
+        <button onClick={rematch} className="btn btn-gold w-full py-3.5 mb-3 animate-bounce-in">
+          <RotateCcw size={18} strokeWidth={2.4} aria-hidden="true" />
+          {t('hotseatRematch')}
+        </button>
+      )}
+
       {finished && (
         <button
-          onClick={() => setMode('menu')}
+          onClick={() => { if (mode === 'hotseat') setSeries({ w: 0, b: 0, d: 0 }); setMode('menu'); }}
           className="w-full py-3.5 rounded-xl font-bold animate-bounce-in"
           style={{ background: 'var(--text-primary)', color: 'var(--bg-primary)' }}
         >

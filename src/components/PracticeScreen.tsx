@@ -1,8 +1,9 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
-import { Zap, Heart, Timer, ArrowRight, Target } from 'lucide-react';
+import { Zap, Heart, Timer, ArrowRight, Target, BookOpen } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 import { puzzles } from '../data/puzzles';
 import { lessons } from '../data/lessons';
+import { openings } from '../data/openings';
 import { ChessPuzzle } from './ChessPuzzle';
 import { StaticBoard } from './StaticBoard';
 import { generateMatePuzzle } from '../game/mateGen';
@@ -24,6 +25,8 @@ interface PracticeScreenProps {
   onSurvivalScore: (xp: number, combo: number) => void;
   /** Рекорд спринта (noteSprintScore); опционален, чтобы не ломать текущую точку вызова */
   onSprintScore?: (score: number) => void;
+  /** Переход в Тренажёр дебютов (отдельный экран App); опционален, как и остальные входы */
+  onOpenOpenings?: () => void;
 }
 
 type Mode = 'menu' | 'practice' | 'survival' | 'sprint' | 'mats';
@@ -48,7 +51,7 @@ function buildSprintPool(elo: number): Puzzle[] {
   return pool;
 }
 
-export function PracticeScreen({ progress, onSolved, onFailed, onSurvivalScore, onSprintScore }: PracticeScreenProps) {
+export function PracticeScreen({ progress, onSolved, onFailed, onSurvivalScore, onSprintScore, onOpenOpenings }: PracticeScreenProps) {
   const { t } = useI18n();
   const [mode, setMode] = useState<Mode>('menu');
   const [theme, setTheme] = useState('');
@@ -319,7 +322,7 @@ export function PracticeScreen({ progress, onSolved, onFailed, onSurvivalScore, 
         </div>
 
         {/* Генератор матов */}
-        <div className="glass-card p-5">
+        <div className="glass-card p-5 mb-4">
           <div className="flex items-center justify-between mb-2">
             <p className="font-bold text-ink flex items-center gap-2">
               <Target size={18} strokeWidth={2.4} className="text-gold" aria-hidden="true" />
@@ -336,6 +339,29 @@ export function PracticeScreen({ progress, onSolved, onFailed, onSurvivalScore, 
             </button>
           </div>
         </div>
+
+        {/* Тренажёр дебютов — переход на отдельный экран */}
+        {onOpenOpenings && (
+          <button
+            onClick={onOpenOpenings}
+            className="glass-card p-5 w-full text-left transition-transform active:scale-[0.98]"
+          >
+            <div className="flex items-center justify-between mb-2">
+              <p className="font-bold text-ink flex items-center gap-2">
+                <BookOpen size={18} strokeWidth={2.4} className="text-gold" aria-hidden="true" />
+                {t('openingsTitle')}
+              </p>
+              <span className="text-caption text-muted">
+                {progress.openingsStudied.length}/{openings.length}
+              </span>
+            </div>
+            <p className="text-caption mb-4 text-muted">{t('openingsDesc')}</p>
+            <span className="btn btn-primary w-full py-3.5 pointer-events-none inline-flex justify-center">
+              {t('openingsStart')}
+              <ArrowRight size={18} strokeWidth={2.4} aria-hidden="true" />
+            </span>
+          </button>
+        )}
       </div>
     );
   }

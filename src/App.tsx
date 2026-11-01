@@ -30,10 +30,12 @@ import { TransferCard } from './components/TransferCard';
 import { BeginnerCourse } from './components/BeginnerCourse';
 import { AdminGate } from './components/admin/AdminGate';
 import { AdminPanel } from './components/admin/AdminPanel';
+import { StatsScreen } from './components/StatsScreen';
+import { OpeningsTrainer } from './components/OpeningsTrainer';
 import { getPuzzleById } from './data/puzzles';
 import { lessons } from './data/lessons';
 
-type Screen = 'map' | 'lesson' | 'puzzle' | 'play' | 'daily' | 'practice' | 'review' | 'profile' | 'settings' | 'premium' | 'admin';
+type Screen = 'map' | 'lesson' | 'puzzle' | 'play' | 'daily' | 'practice' | 'review' | 'profile' | 'settings' | 'premium' | 'admin' | 'stats' | 'openings';
 
 function App() {
   const { t } = useI18n();
@@ -50,7 +52,7 @@ function App() {
   const {
     progress, loaded,
     completePuzzle, completeLesson,
-    noteExternalSolved, notePuzzleFailed, noteSurvivalScore, noteSprintScore,
+    noteExternalSolved, notePuzzleFailed, noteSurvivalScore, noteSprintScore, noteOpeningDone,
     recordMistake, removeMistake, addGame, resetProgress, replaceProgress,
   } = useProgress();
 
@@ -304,7 +306,20 @@ function App() {
             onFailed={notePuzzleFailed}
             onSurvivalScore={noteSurvivalScore}
             onSprintScore={noteSprintScore}
+            onOpenOpenings={() => setScreen('openings')}
           />
+        )}
+
+        {screen === 'openings' && (
+          <OpeningsTrainer
+            progress={progress}
+            onOpeningDone={noteOpeningDone}
+            onExit={() => setScreen('practice')}
+          />
+        )}
+
+        {screen === 'stats' && (
+          <StatsScreen progress={progress} onBack={() => setScreen('profile')} />
         )}
 
         {screen === 'review' && (
@@ -327,7 +342,12 @@ function App() {
         )}
 
         {screen === 'profile' && (
-          <Profile progress={progress} onReset={resetProgress} onOpenReview={() => setScreen('review')} />
+          <Profile
+            progress={progress}
+            onReset={resetProgress}
+            onOpenReview={() => setScreen('review')}
+            onOpenStats={() => setScreen('stats')}
+          />
         )}
 
         {screen === 'settings' && (
