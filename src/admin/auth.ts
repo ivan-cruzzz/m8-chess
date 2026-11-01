@@ -26,14 +26,15 @@ export function adminPasswordExists(): boolean {
 
 /**
  * Первый вход: задаёт пароль панели. Падает, если пароль уже существует —
- * перезадать его через этот метод нельзя.
+ * перезадать его через этот метод нельзя. Отказ хранилища (квота, приватный
+ * режим) ПРОБРАСЫВАЕТСЯ наружу: пароль не задан, вызывающий обязан показать
+ * сбой и не открывать сессию.
  */
 export async function setupAdminPassword(pw: string): Promise<void> {
   if (adminPasswordExists()) throw new Error('admin_password_exists');
   const full = await hashPassword(pw, randomSaltHex());
-  try {
-    localStorage.setItem(ADMIN_HASH_KEY, full);
-  } catch { /* хранилище недоступно — пароль не задан */ }
+  // Без try/catch: глотание отказа здесь притворялось бы успешной установкой
+  localStorage.setItem(ADMIN_HASH_KEY, full);
 }
 
 /** Проверка пароля панели; при незаданном пароле — false */

@@ -57,6 +57,21 @@ describe('admin auth: пароль', () => {
     await setupAdminPassword(PW);
     await expect(setupAdminPassword('second')).rejects.toThrow();
   });
+
+  it('отказ хранилища при установке ПРОБРАСЫВАЕТСЯ — пароль не задан, ключа нет', async () => {
+    // Квота/приватный режим: setItem кидает, setupAdminPassword обязан пробросить
+    const spy = vi.spyOn(localStorage, 'setItem').mockImplementation(() => {
+      throw new Error('quota exceeded');
+    });
+    try {
+      await expect(setupAdminPassword(PW)).rejects.toThrow('quota exceeded');
+    } finally {
+      spy.mockRestore();
+    }
+    // Установка не притворилась успешной: хеш не записан, пароля «нет»
+    expect(adminPasswordExists()).toBe(false);
+    expect(localStorage.length).toBe(0);
+  });
 });
 
 describe('admin auth: сессия на 30 минут', () => {

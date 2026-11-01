@@ -13,9 +13,7 @@ import {
   setPromoActive,
   type SupabaseRow,
 } from '../../admin/store';
-
-const fill = (s: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((acc, [k, v]) => acc.replace(`{${k}}`, String(v)), s);
+import { fill } from '../../admin/fill';
 
 const PLANS: Plan[] = ['monthly', 'yearly', 'lifetime'];
 const planKey = (p: Plan) => (p === 'monthly' ? 'premiumMonthly' : p === 'yearly' ? 'premiumYearly' : 'premiumLifetime');

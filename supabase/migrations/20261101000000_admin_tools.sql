@@ -28,11 +28,22 @@ drop policy if exists "admin profiles select" on public.profiles;
 create policy "admin profiles select" on public.profiles
   for select using (public.is_admin());
 
--- Обновлять профили (в панели — только banned) может только админ
+-- Обновлять профили может только админ; сужение до колонки banned — ниже
 drop policy if exists "admin profiles update" on public.profiles;
 create policy "admin profiles update" on public.profiles
   for update using (public.is_admin())
   with check (public.is_admin());
+
+-- Сужение админского обновления до одной колонки banned: RLS-политика не умеет
+-- ограничивать колонки, поэтому забираем UPDATE у клиентов целиком и возвращаем
+-- column-level GRANT только на banned. PostgREST проверяет GRANT по колонкам из
+-- тела PATCH: .update({ banned }) панели продолжает работать, а попытка админа
+-- через API изменить role/username (или что-то ещё) падает с permission denied.
+-- Обычному пользователю это ничего не ломает: своей update-политики у него нет,
+-- в profiles клиент не пишет вовсе; create-admin.mjs работает от service_role,
+-- которого revoke на anon/authenticated не касается.
+revoke update on table public.profiles from anon, authenticated;
+grant update (banned) on public.profiles to authenticated;
 
 -- revoke лишних прав с security definer функции (не должна быть публично вызываемой как service_role)
 revoke all on function public.is_admin() from public;

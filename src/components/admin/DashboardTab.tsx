@@ -1,10 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '../../contexts/I18nContext';
 import { aggregateDashboard, listSupabaseUsers } from '../../admin/store';
-
-/** Замена подстановок {n} в ключах i18n (в проекте подстановки ручные) */
-const fill = (s: string, vars: Record<string, string | number>) =>
-  Object.entries(vars).reduce((acc, [k, v]) => acc.replace(`{${k}}`, String(v)), s);
+import { fill } from '../../admin/fill';
 
 /** Вкладка Дашборда: KPI, график активности 14 дней (CSS-бары), проблемные темы, решаемость */
 export function DashboardTab() {

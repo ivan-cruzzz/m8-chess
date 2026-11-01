@@ -63,7 +63,10 @@ export function AdminGate({ children }: AdminGateProps) {
       startAdminSession();
       setAuthed(true);
     } catch {
-      setError(t('adminWrongPassword'));
+      // Сюда доходит и проброшенный отказ хранилища при установке пароля:
+      // показываем сбой установки (не «неверный пароль»); startAdminSession
+      // и setAuthed(true) не вызываются — сессия не открывается
+      setError(t(exists ? 'adminWrongPassword' : 'adminSetupFailed'));
     } finally {
       setBusy(false);
     }
