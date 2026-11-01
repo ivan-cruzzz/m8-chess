@@ -138,4 +138,7 @@ export const defaultProgress: UserProgress = {
   survivalBest: null,
   mistakes: [],
   gameHistory: [],
+  activityLog: {},
+  sprintBest: null,
+  openingsStudied: [],
 };

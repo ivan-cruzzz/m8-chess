@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { UserProgress, MistakeEntry, GameRecord, DailyMission } from '../types';
+import type { UserProgress, MistakeEntry, GameRecord, DailyMission, SprintBest } from '../types';
 import { defaultProgress } from '../data/lessons';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -93,13 +93,19 @@ export function leagueBots(weekKey: string): Array<{ name: string; pace: number 
 
 /* ---------- Загрузка / сохранение ---------- */
 
-/** Миграция и дозаполнение новых полей + ежедневный/недельный ресет */
-function normalize(p: Partial<UserProgress>): UserProgress {
+/** Миграция и дозаполнение новых полей + ежедневный/недельный ресет.
+ *  Чистая функция: экспортирована для обратной совместимости старых профилей
+ *  (используется и админ-панелью при чтении чужих прогрессов) */
+export function normalize(p: Partial<UserProgress>): UserProgress {
   const merged: UserProgress = {
     ...defaultProgress,
     ...p,
     daily: { ...defaultProgress.daily, ...(p.daily ?? {}) },
     weekly: { ...defaultProgress.weekly, ...(p.weekly ?? {}) },
+    // Поля, введённые в M8: у старых сохранений дозаполняются значениями по умолчанию
+    activityLog: p.activityLog ?? {},
+    sprintBest: p.sprintBest ?? null,
+    openingsStudied: p.openingsStudied ?? [],
   };
 
   // Новый день — новые миссии
@@ -156,6 +162,13 @@ const eloDeltaLoss = (elo: number, puzzleRating: number) => {
 };
 
 const levelOf = (xp: number) => Math.floor(xp / 100) + 1;
+
+/** Единая точка учёта дневной активности: инкремент activityLog за сегодня.
+ *  Вызывается из completePuzzle и noteExternalSolved; наружу не экспортируется */
+function bumpActivity(p: UserProgress): UserProgress {
+  const key = todayKey();
+  return { ...p, activityLog: { ...p.activityLog, [key]: (p.activityLog[key] ?? 0) + 1 } };
+}
 
 export interface SolvedMeta {
   xp: number;
@@ -247,18 +260,16 @@ export function useProgress() {
   const completePuzzle = useCallback((puzzleId: string, xp: number, meta?: Omit<SolvedMeta, 'xp' | 'source'>) => {
     setProgress((prev) => {
       const base = applySolved(prev, { xp, rating: meta?.rating ?? 1000, mistakes: meta?.mistakes ?? 0, hintUsed: meta?.hintUsed ?? false, source: 'lesson' });
-      if (base === prev) return prev;
-      if (base.completedPuzzles.includes(puzzleId)) return base;
-      return {
-        ...base,
-        completedPuzzles: [...base.completedPuzzles, puzzleId],
-      };
+      const withPuzzle = base.completedPuzzles.includes(puzzleId)
+        ? base
+        : { ...base, completedPuzzles: [...base.completedPuzzles, puzzleId] };
+      return bumpActivity(withPuzzle);
     });
   }, []);
 
   /** Решение вне уроков: практика / пазл дня / выживание (не отмечает уроки) */
   const noteExternalSolved = useCallback((meta: SolvedMeta) => {
-    setProgress((prev) => applySolved(prev, meta));
+    setProgress((prev) => bumpActivity(applySolved(prev, meta)));
   }, []);
 
   const noteDailyPuzzleDone = useCallback((meta: Omit<SolvedMeta, 'source' | 'rating'> & { rating: number }) => {
@@ -325,6 +336,32 @@ export function useProgress() {
     });
   }, []);
 
+  /* ---------- Блиц-спринт и дебюты ---------- */
+
+  /** Рекорд Блиц-спринта: сохраняется, только если новый счёт лучше прежнего */
+  const noteSprintScore = useCallback((score: number) => {
+    setProgress((prev) => {
+      if (prev.sprintBest && prev.sprintBest.score >= score) return prev;
+      const sprintBest: SprintBest = { score, date: todayKey() };
+      return { ...prev, sprintBest };
+    });
+  }, []);
+
+  /** Завершение линии дебюта: бонус XP один раз на дебют (повторы не начисляются) */
+  const noteOpeningDone = useCallback((id: string, xp: number) => {
+    setProgress((prev) => {
+      if (prev.openingsStudied.includes(id)) return prev;
+      const newXp = prev.xp + xp;
+      return {
+        ...prev,
+        xp: newXp,
+        level: levelOf(newXp),
+        weekly: { ...prev.weekly, xp: prev.weekly.xp + xp },
+        openingsStudied: [...prev.openingsStudied, id],
+      };
+    });
+  }, []);
+
   const resetProgress = useCallback(() => {
     setProgress(normalize({}));
   }, []);
@@ -338,6 +375,7 @@ export function useProgress() {
     progress, loaded,
     completePuzzle, noteExternalSolved, noteDailyPuzzleDone, notePuzzleFailed,
     completeLesson, recordMistake, removeMistake,
-    addGame, noteSurvivalScore, resetProgress, replaceProgress,
+    addGame, noteSurvivalScore, noteSprintScore, noteOpeningDone,
+    resetProgress, replaceProgress,
   };
 }
