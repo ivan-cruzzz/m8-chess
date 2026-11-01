@@ -90,3 +90,33 @@ interface DashboardData { userCount: number; active7d: number; totalXp: number; 
 - `src/admin/__tests__/auth.test.ts` — чистый async-модуль над localStorage/sessionStorage (happy-dom).
 - `src/admin/__tests__/store.test.ts` — `validatePromo`, `aggregateDashboard` на фикстурах прогресса.
 - `src/hooks/__tests__/useProgress.backfill.test.ts` — `normalize()` дозаполняет старые профили (если структура хука позволяет прямой вызов; иначе — через экспортируемый чистый хелпер).
+
+## Уточнения после таска 02 (фактические интерфейсы)
+
+- `src/lib/pbkdf2.ts`: `hashPassword(pw: string, saltHex?: string): Promise<string>` (формат `saltHex:hashHex`, PBKDF2-SHA-256 100k), `randomSaltHex(): string`.
+- `src/admin/auth.ts`: сигнатуры по контракту выше; сессия — ISO-срок в sessionStorage.
+- `src/admin/store.ts`: все методы по контракту; **`aggregateDashboard()` синхронный и локальный** — Supabase-счётчики вкладка Дашборда складывает отдельно через `await listSupabaseUsers()`; `hardestPuzzles` сортируются по возрастанию `solvedBy` (наименее решённые впереди).
+- `src/hooks/useProgress.ts`: чистый `normalize()` экспортирован (используется тестами backfill); `bumpActivity` остался внутренним.
+- `defaultProgress` в `src/data/lessons.ts` дополнен новыми обязательными полями (3 строки) — необходимая правка вне зоны ради компиляции.
+
+## Уточнения после таска 03 (фактические интерфейсы)
+
+- `src/contexts/SubscriptionContext.tsx`: экспорт `planFromStored(raw: string | null, now?: Date): Plan` — читает и старую строку-план, и `{plan, until}` (until в прошлом → free); `redeemPromo(code)` по контракту. Мгновенная видимость выданного/отобранного плана — window-событие **`chessup-plan-changed`** (компоненты слушают и перечитывают план; в Supabase-режиме локальная выдача перечитывается при смене пользователя/refresh).
+- `AuthResult.error` дополнился значением `'banned'`; `src/components/AuthScreen.tsx` маппит его на i18n-ключ `loginBanned` (правка одной строки, вне зоны, принята).
+- `src/App.tsx`: `Screen` += `'admin'`; `SettingsScreen` получил проп `onOpenAdmin` (пункт «Админ-панель»).
+- `supabase/migrations/20261101000000_admin_tools.sql`: `profiles.banned boolean not null default false`, SQL-функция `is_admin()`, RLS-политики «admin profiles select/update».
+- i18n: новые ключи `loginBanned`, `promo*`, `admin*` добавлены в оба словаря (сейчас 265 ключей на язык).
+
+## Уточнения после таска 04 (фактические интерфейсы)
+
+- `src/game/mateGen.ts`: `generateMatePuzzle(opts: { kind: 'mate1' | 'mate2'; seed?: number }): { fen: string; solution: string[]; kind }` (mulberry32, ≤200 попыток, далее банк), `verifyMateInN(fen: string, n: 1 | 2): boolean` (мат ≤ n; n=2 — forced: все ответы противника), `FALLBACK_BANK: readonly MatePuzzle[]` (10 = 5+5), типы `MateKind`, `MatePuzzle`. Мат-в-2 генерируется 0,5–1 c — потребитель готовит следующую позицию заранее.
+- `src/components/PracticeScreen.tsx`: `Mode` += `'sprint' | 'mats'`; новый опциональный проп `onSprintScore?(score: number)` — App.tsx передаёт `noteSprintScore` (wiring: 2 строки в App.tsx, деструктуризация + проброс).
+- i18n: ключи `sprint*` (Title, Desc, Start, Best, Score, Over, Result, NewRecord) и `mats*` (Title, Desc, MateIn1, MateIn2, Hint1, Hint2, AttemptsLeft, Solution, Generating) в обоих словарях.
+
+## Уточнения после таска 05 (фактические интерфейсы)
+
+- `src/data/openings.ts`: `Opening { id; name{ru,en}; side: 'w'|'b'; moves: string[] /*SAN 8–12*/; idea{ru,en} }`, экспорт `openings: Opening[]` (6 дебютов); `src/data/__tests__/openings.test.ts` — легальность всех линий.
+- `src/components/OpeningsTrainer.tsx`: пропы `{ progress, onOpeningDone(id, xp), onExit }`, константа `OPENING_BONUS_XP = 30`; `src/components/StatsScreen.tsx`: пропы `{ progress, onBack }`.
+- `src/App.tsx`: `Screen` += `'stats' | 'openings'`; `Profile` += проп `onOpenStats?`; `PracticeScreen` += проп `onOpenOpenings?`.
+- PlayScreen hotseat: режим `hotseatSetup` перед партией (ввод имён), серия `{w,b,d}` внутренняя; автопереворот доски реализован в этом таске (в коде его не было — orientation был жёстко 'white', план ошибочно считал иначе); undo — один полуход, только в hotseat.
+- i18n: +35 ключей `stats*`/`openings*`/`hotseat*` в обоих словарях.
