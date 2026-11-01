@@ -7,6 +7,7 @@ type FormMode = 'login' | 'register' | 'reset';
 /** Человекочекие сообщения из ошибок Supabase */
 function friendlyError(t: (k: string) => string, err: string): string {
   const e = err.toLowerCase();
+  if (e === 'banned') return t('loginBanned');
   if (e.includes('invalid login') || e.includes('invalid credentials')) return t('errInvalidCredentials');
   if (e.includes('already registered') || e.includes('already exists')) return t('errEmailTaken');
   if (e.includes('password') && e.includes('least')) return t('errPasswordShort');

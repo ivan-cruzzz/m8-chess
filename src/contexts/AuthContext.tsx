@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react';
 import { supabase, supabaseEnabled } from '../lib/supabase';
+import { hashPassword, randomSaltHex } from '../lib/pbkdf2';
 
 export interface User {
   id: string;
@@ -37,24 +38,8 @@ interface StoredUser {
   password?: string;
 }
 
-const toHex = (arr: Uint8Array) => Array.from(arr).map((b) => b.toString(16).padStart(2, '0')).join('');
-
-// Встроенный админ: вход работает даже без сети и без Supabase
-const LOCAL_ADMIN = {
-  email: 'admin@m8chess.com',
-  password: 'M8-Admin-2026!k9Rz',
-  id: 'local-admin',
-  username: 'admin',
-};
-
-async function hashPassword(password: string, saltHex?: string): Promise<string> {
-  const salt = saltHex
-    ? Uint8Array.from(saltHex.match(/.{2}/g)!.map((b) => parseInt(b, 16)))
-    : crypto.getRandomValues(new Uint8Array(16));
-  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
-  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt, iterations: 100_000 }, key, 256);
-  return `${toHex(salt)}:${toHex(new Uint8Array(bits))}`;
-}
+// Хеширование паролей — общая схема в src/lib/pbkdf2 (формат saltHex:hashHex не меняется).
+// Встроенного админ-аккаунта больше нет: администрирование — через админ-панель (пароль задаёт сам админ).
 
 function loadUsers(): StoredUser[] {
   try {
@@ -92,12 +77,6 @@ function saveSession(user: User | null) {
 const usernameFromEmail = (email: string) => email.split('@')[0] || 'player';
 
 async function localLogin(email: string, password: string): Promise<AuthResult> {
-  // Встроенный админ — приоритетный вход в обход сети и Supabase
-  if (email === LOCAL_ADMIN.email && password === LOCAL_ADMIN.password) {
-    const sessionUser: User = { id: LOCAL_ADMIN.id, username: LOCAL_ADMIN.username, email: LOCAL_ADMIN.email };
-    saveSession(sessionUser);
-    return { ok: true };
-  }
   const users = loadUsers();
   const found = users.find((u) => u.email === email);
   if (!found) return { ok: false, error: 'invalid_credentials' };
@@ -110,7 +89,7 @@ async function localLogin(email: string, password: string): Promise<AuthResult> 
   }
   if (!ok) return { ok: false, error: 'invalid_credentials' };
   if (!found.salt || !found.hash) {
-    const saltHex = toHex(crypto.getRandomValues(new Uint8Array(16)));
+    const saltHex = randomSaltHex();
     const full = await hashPassword(password, saltHex);
     found.salt = saltHex;
     found.hash = full.split(':')[1];
@@ -125,7 +104,7 @@ async function localLogin(email: string, password: string): Promise<AuthResult> 
 async function localRegister(username: string, email: string, password: string): Promise<AuthResult> {
   const users = loadUsers();
   if (users.some((u) => u.email === email)) return { ok: false, error: 'email_taken' };
-  const saltHex = toHex(crypto.getRandomValues(new Uint8Array(16)));
+  const saltHex = randomSaltHex();
   const full = await hashPassword(password, saltHex);
   users.push({ username, email, salt: saltHex, hash: full.split(':')[1] });
   saveUsers(users);
@@ -182,9 +161,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (supabase) {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return { ok: false, error: error.message };
-      // Supabase-сессия подхватится в onAuthStateChange; дополнительно ставим user сразу
       const u = data.user;
       if (u) {
+        // Заблокированный пользователь не пускается: сессия сбрасывается сразу
+        const { data: prof } = await supabase.from('profiles').select('banned').eq('id', u.id).maybeSingle();
+        if (prof?.banned === true) {
+          await supabase.auth.signOut();
+          return { ok: false, error: 'banned' };
+        }
+        // Supabase-сессия подхватится в onAuthStateChange; дополнительно ставим user сразу
         setUser({
           id: u.id,
           username: (u.user_metadata?.username as string) || usernameFromEmail(u.email ?? ''),

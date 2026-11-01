@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Crown, Check, Sparkles, BookOpen, Brain, Layers, HeartHandshake, Zap, Bitcoin, ExternalLink, Loader2 } from 'lucide-react';
+import { Crown, Check, Sparkles, BookOpen, Brain, Layers, HeartHandshake, Zap, Bitcoin, ExternalLink, Loader2, Ticket } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 import { useSubscription, type Plan } from '../contexts/SubscriptionContext';
 import { canPayWithCrypto, createInvoice, checkPayment, type InvoiceInfo } from '../services/cryptoPay';
@@ -7,6 +7,9 @@ import { canPayWithCrypto, createInvoice, checkPayment, type InvoiceInfo } from 
 interface PremiumScreenProps {
   onBack: () => void;
 }
+
+/** Ключи сообщений результата промокода: три различимые ошибки + успех */
+const PROMO_ERROR_KEY = { not_found: 'promoNotFound', exhausted: 'promoExhausted', inactive: 'promoInactive' } as const;
 
 const PLANS: Array<{ id: Plan; price: string; period: string; badge?: string }> = [
   { id: 'monthly', price: '299 ₽', period: 'premiumPerMonth' },
@@ -24,11 +27,26 @@ type PayState =
 
 export function PremiumScreen({ onBack }: PremiumScreenProps) {
   const { t } = useI18n();
-  const { plan, isPremium, subscribe, cancel, refresh } = useSubscription();
+  const { plan, isPremium, subscribe, cancel, refresh, redeemPromo } = useSubscription();
   const [selected, setSelected] = useState<Plan>('yearly');
   const [justActivated, setJustActivated] = useState(false);
   const [pay, setPay] = useState<PayState>({ phase: 'idle' });
   const pollRef = useRef<number | null>(null);
+  // Промокод: ввод + результат (ключ ошибки i18n или успех)
+  const [promoCode, setPromoCode] = useState('');
+  const [promoResult, setPromoResult] = useState<{ ok: boolean; text: string } | null>(null);
+
+  const applyPromo = async () => {
+    const clean = promoCode.trim();
+    if (!clean) return;
+    const res = await redeemPromo(clean);
+    if (res.ok) {
+      setPromoResult({ ok: true, text: t('promoOk') });
+      setPromoCode('');
+    } else {
+      setPromoResult({ ok: false, text: t(PROMO_ERROR_KEY[res.error]) });
+    }
+  };
 
   // Остановка поллинга при размонтировании
   useEffect(() => () => {
@@ -181,6 +199,36 @@ export function PremiumScreen({ onBack }: PremiumScreenProps) {
                 </button>
               );
             })}
+          </div>
+
+          {/* Промокод: успешная активация и три разные ошибки */}
+          <div className="glass-card p-4 mb-6 space-y-2">
+            <p className="text-caption font-semibold text-muted flex items-center gap-1.5">
+              <Ticket size={14} strokeWidth={2.2} aria-hidden="true" />
+              {t('promoTitle')}
+            </p>
+            <div className="flex gap-2">
+              <input
+                value={promoCode}
+                onChange={(e) => {
+                  setPromoCode(e.target.value);
+                  setPromoResult(null);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') void applyPromo();
+                }}
+                placeholder={t('promoPlaceholder')}
+                className="flex-1 min-w-0 px-3 py-2.5 rounded-xl border-2 border-line bg-card text-sm text-ink outline-none focus:border-gold"
+              />
+              <button onClick={() => void applyPromo()} disabled={!promoCode.trim()} className="btn btn-primary py-2.5 px-4 text-sm shrink-0">
+                {t('promoApply')}
+              </button>
+            </div>
+            {promoResult && (
+              <p className={`text-caption ${promoResult.ok ? 'text-success' : 'text-danger'}`} role={promoResult.ok ? 'status' : 'alert'}>
+                {promoResult.text}
+              </p>
+            )}
           </div>
 
           {/* CTA — крипто-оплата или демо */}

@@ -8,6 +8,7 @@ import {
   Flame,
   Target,
   GraduationCap,
+  Shield,
 } from 'lucide-react';
 import { useProgress } from './hooks/useProgress';
 import { useAuth } from './contexts/AuthContext';
@@ -27,10 +28,12 @@ import { ReviewScreen } from './components/ReviewScreen';
 import { TheoryModal } from './components/TheoryModal';
 import { TransferCard } from './components/TransferCard';
 import { BeginnerCourse } from './components/BeginnerCourse';
+import { AdminGate } from './components/admin/AdminGate';
+import { AdminPanel } from './components/admin/AdminPanel';
 import { getPuzzleById } from './data/puzzles';
 import { lessons } from './data/lessons';
 
-type Screen = 'map' | 'lesson' | 'puzzle' | 'play' | 'daily' | 'practice' | 'review' | 'profile' | 'settings' | 'premium';
+type Screen = 'map' | 'lesson' | 'puzzle' | 'play' | 'daily' | 'practice' | 'review' | 'profile' | 'settings' | 'premium' | 'admin';
 
 function App() {
   const { t } = useI18n();
@@ -327,7 +330,14 @@ function App() {
         )}
 
         {screen === 'settings' && (
-          <SettingsScreen onNavigate={setScreen} progress={progress} onImportProgress={replaceProgress} onOpenCourse={() => setShowCourse(true)} />
+          <SettingsScreen onNavigate={setScreen} progress={progress} onImportProgress={replaceProgress} onOpenCourse={() => setShowCourse(true)} onOpenAdmin={() => setScreen('admin')} />
+        )}
+
+        {/* Админ-панель: без пароля (AdminGate) данные не видны вовсе */}
+        {screen === 'admin' && (
+          <AdminGate>
+            <AdminPanel onExit={() => setScreen('settings')} />
+          </AdminGate>
         )}
       </main>
 
@@ -406,11 +416,13 @@ function SettingsScreen({
   progress,
   onImportProgress,
   onOpenCourse,
+  onOpenAdmin,
 }: {
   onNavigate: (s: Screen) => void;
   progress: import('./types').UserProgress;
   onImportProgress: (data: Partial<import('./types').UserProgress>) => void;
   onOpenCourse?: () => void;
+  onOpenAdmin?: () => void;
 }) {
   const { t, lang, setLang } = useI18n();
   const { theme, setTheme } = useTheme();
@@ -529,6 +541,24 @@ function SettingsScreen({
           <div className="flex-1 min-w-0">
             <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('course')}</p>
             <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('courseStart')}</p>
+          </div>
+          <span className="text-gold font-bold">→</span>
+        </button>
+      )}
+
+      {/* Админ-панель */}
+      {onOpenAdmin && (
+        <button
+          onClick={onOpenAdmin}
+          className="w-full mb-6 rounded-2xl border-2 p-4 flex items-center gap-3 text-left transition-transform hover:scale-[1.01] active:scale-[0.98]"
+          style={{ borderColor: 'var(--border-color)', background: 'var(--bg-secondary)' }}
+        >
+          <span className="flex items-center justify-center w-10 h-10 rounded-xl text-gold bg-elevated shrink-0" aria-hidden="true">
+            <Shield size={20} strokeWidth={2.2} />
+          </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('adminPanel')}</p>
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('adminPanelDesc')}</p>
           </div>
           <span className="text-gold font-bold">→</span>
         </button>
