@@ -50,7 +50,7 @@ function App() {
   const {
     progress, loaded,
     completePuzzle, completeLesson,
-    noteExternalSolved, notePuzzleFailed, noteSurvivalScore,
+    noteExternalSolved, notePuzzleFailed, noteSurvivalScore, noteSprintScore,
     recordMistake, removeMistake, addGame, resetProgress, replaceProgress,
   } = useProgress();
 
@@ -303,6 +303,7 @@ function App() {
             onSolved={noteExternalSolved}
             onFailed={notePuzzleFailed}
             onSurvivalScore={noteSurvivalScore}
+            onSprintScore={noteSprintScore}
           />
         )}
 
