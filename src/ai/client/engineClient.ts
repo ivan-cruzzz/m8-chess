@@ -112,16 +112,16 @@ export class EngineClient {
       // под будущую индикацию глубины в UI
     };
     worker.onerror = () => {
-      // Воркер не работает (сбой загрузки/окружения): переводим клиент в
-      // синхронный режим навсегда и ПЕРЕЗАПУСКАем незавершённые поиски
-      // синхронно — игра не должна зависать ни при каких условиях
+      // Воркер не работает (сбой загрузки/окружения): отклоняем промисы
+      // ТЕКУЩИХ запросов и переводим клиент в синхронный режим навсегда —
+      // последующие поиски идут через sync-fallback на главном потоке
       this.workerBroken = true;
       this.worker?.terminate();
       this.worker = null;
       const stuck = [...this.pending.values()];
       this.pending.clear();
       for (const entry of stuck) {
-        this.searchSync(entry.fen, entry.level, entry.timeBudgetMs).promise.then(entry.resolve).catch(() => entry.resolve(NULL_RESULT));
+        entry.reject(new Error('engine worker failed'));
       }
     };
     return this.worker;
