@@ -2,6 +2,8 @@
 
 Интерактивное приложение для обучения шахматам в стиле Duolingo.
 
+🎮 **Открыть в браузере:** [m8-chess.netlify.app](https://m8-chess.netlify.app) · 💾 **Скачать:** [Windows (EXE)](https://m8-chess.netlify.app/M8_1.0.0_x64-setup.exe)
+
 [Презентация приложения (PDF)](docs/M8-Presentation.pdf) — скриншоты всех экранов и возможностей.
 
 ## Описание
