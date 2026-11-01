@@ -1,4 +1,4 @@
-import { useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { Shield } from 'lucide-react';
 import { useI18n } from '../../contexts/I18nContext';
 import {
@@ -27,6 +27,22 @@ export function AdminGate({ children }: AdminGateProps) {
   const [pw2, setPw2] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+
+  // Пока панель открыта — следим за TTL сессии: как только 30 минут истекли
+  // (или сессию закрыли извне), открытая панель сама возвращается на гейт входа.
+  // Интервал 15 с + проверка при возврате на вкладку (фоновые таймеры могут спать).
+  useEffect(() => {
+    if (!authed) return;
+    const check = () => {
+      if (!adminSessionActive()) setAuthed(false);
+    };
+    const id = window.setInterval(check, 15_000);
+    document.addEventListener('visibilitychange', check);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', check);
+    };
+  }, [authed]);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
