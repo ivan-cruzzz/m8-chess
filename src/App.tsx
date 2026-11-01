@@ -9,6 +9,8 @@ import {
   Target,
   GraduationCap,
   Shield,
+  Sun,
+  Moon,
 } from 'lucide-react';
 import { useProgress } from './hooks/useProgress';
 import { useAuth } from './contexts/AuthContext';
@@ -464,7 +466,7 @@ function SettingsScreen({
         >
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-full flex items-center justify-center text-xl" style={{ background: 'var(--bg-tertiary)' }}>
-              👤
+              <User size={22} strokeWidth={2.2} style={{ color: 'var(--text-muted)' }} aria-hidden="true" />
             </div>
             <div>
               <p className="font-bold" style={{ color: 'var(--text-primary)' }}>{user.username}</p>
@@ -491,7 +493,7 @@ function SettingsScreen({
                 color: 'var(--text-primary)',
               }}
             >
-              {l === 'ru' ? '🇷🇺 Русский' : '🇬🇧 English'}
+              {l === 'ru' ? 'Русский' : 'English'}
             </button>
           ))}
         </div>
@@ -514,7 +516,11 @@ function SettingsScreen({
                 color: 'var(--text-primary)',
               }}
             >
-              {th === 'light' ? '☀️ ' + t('light') : '🌙 ' + t('dark')}
+              <span className="inline-flex items-center justify-center gap-1.5">
+                {th === 'light'
+                  ? (<><Sun size={16} strokeWidth={2.2} aria-hidden="true" /> {t('light')}</>)
+                  : (<><Moon size={16} strokeWidth={2.2} aria-hidden="true" /> {t('dark')}</>)}
+              </span>
             </button>
           ))}
         </div>
@@ -536,7 +542,9 @@ function SettingsScreen({
             border: isPremium ? undefined : '2px solid var(--border-color)',
           }}
         >
-          <span className="text-2xl" aria-hidden="true">{isPremium ? '👑' : '♛'}</span>
+          <span className="shrink-0" aria-hidden="true">
+            <Crown size={24} strokeWidth={2.2} style={{ color: isPremium ? '#fff' : 'var(--color-gold)' }} />
+          </span>
           <div className="text-left">
             <p className="font-bold text-sm" style={{ color: isPremium ? '#fff' : 'var(--text-primary)' }}>
               {isPremium ? `${t('premium')} · ${t(plan === 'yearly' ? 'premiumYearly' : plan === 'monthly' ? 'premiumMonthly' : 'premiumLifetime')}` : t('premiumFree')}
@@ -558,7 +566,9 @@ function SettingsScreen({
           className="w-full mb-6 rounded-2xl border-2 p-4 flex items-center gap-3 text-left transition-transform hover:scale-[1.01] active:scale-[0.98]"
           style={{ borderColor: 'var(--border-color)', background: 'var(--bg-secondary)' }}
         >
-          <span className="text-2xl" aria-hidden="true">🎓</span>
+          <span aria-hidden="true" style={{ color: 'var(--color-gold)' }}>
+            <GraduationCap size={26} strokeWidth={2.2} />
+          </span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>{t('course')}</p>
             <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{t('courseStart')}</p>

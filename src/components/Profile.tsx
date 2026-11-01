@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NotebookPen, Sparkles, ArrowRight, Swords, BadgeCheck, BarChart3 } from 'lucide-react';
+import { NotebookPen, Sparkles, ArrowRight, Swords, BadgeCheck, BarChart3, Medal, Flame, Zap, Target, Crown, Star, Puzzle, BookOpen, Trophy } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
@@ -43,18 +43,20 @@ export function Profile({ progress, onReset, onOpenReview, onOpenStats }: Profil
   const puzzlesCount = progress.completedPuzzles.length;
 
   const achievements = [
-    { id: 'first-win', title: t('firstWin'), desc: t('firstWinDesc'), icon: '🥇', value: puzzlesCount, goal: 1 },
-    { id: 'streak-3', title: t('streak3'), desc: t('streak3Desc'), icon: '🔥', value: progress.streak, goal: 3 },
-    { id: 'streak-7', title: t('streak7'), desc: t('streak7Desc'), icon: '⚡', value: progress.streak, goal: 7 },
-    { id: 'puzzle-10', title: t('puzzle10'), desc: t('puzzle10Desc'), icon: '♟', value: puzzlesCount, goal: 10 },
-    { id: 'puzzle-50', title: t('puzzle50'), desc: t('puzzle50Desc'), icon: '♛', value: puzzlesCount, goal: 50 },
-    { id: 'level-5', title: t('level5'), desc: t('level5Desc'), icon: '⭐', value: progress.level, goal: 5 },
+    { id: 'first-win', title: t('firstWin'), desc: t('firstWinDesc'), Icon: Medal, value: puzzlesCount, goal: 1 },
+    { id: 'streak-3', title: t('streak3'), desc: t('streak3Desc'), Icon: Flame, value: progress.streak, goal: 3 },
+    { id: 'streak-7', title: t('streak7'), desc: t('streak7Desc'), Icon: Zap, value: progress.streak, goal: 7 },
+    { id: 'puzzle-10', title: t('puzzle10'), desc: t('puzzle10Desc'), Icon: Target, value: puzzlesCount, goal: 10 },
+    { id: 'puzzle-50', title: t('puzzle50'), desc: t('puzzle50Desc'), Icon: Crown, value: puzzlesCount, goal: 50 },
+    { id: 'level-5', title: t('level5'), desc: t('level5Desc'), Icon: Star, value: progress.level, goal: 5 },
   ];
   const unlockedCount = achievements.filter((a) => a.value >= a.goal).length;
 
-  const statCard = (icon: string, value: string | number, label: string) => (
+  const statCard = (Icon: typeof Puzzle, value: string | number, label: string) => (
     <div className="glass-card p-4 flex flex-col items-center gap-1">
-      <span className="text-xl" aria-hidden="true">{icon}</span>
+      <span aria-hidden="true" style={{ color: 'var(--color-gold)' }}>
+        <Icon size={20} strokeWidth={2.2} />
+      </span>
       <span className="text-2xl font-black" style={{ color: 'var(--text-primary)' }}>{value}</span>
       <span className="text-[11px] text-center" style={{ color: 'var(--text-muted)' }}>{label}</span>
     </div>
@@ -164,10 +166,10 @@ export function Profile({ progress, onReset, onOpenReview, onOpenStats }: Profil
 
       {/* Статистика */}
       <div className="grid grid-cols-2 gap-3 mb-6">
-        {statCard('🧩', puzzlesCount, t('puzzlesSolved'))}
-        {statCard('📚', progress.completedLessons.length, t('lessonsCompleted'))}
-        {statCard('🔥', progress.streak, t('streakDays'))}
-        {statCard('🏆', `${unlockedCount}/${achievements.length}`, t('achievements'))}
+        {statCard(Puzzle, puzzlesCount, t('puzzlesSolved'))}
+        {statCard(BookOpen, progress.completedLessons.length, t('lessonsCompleted'))}
+        {statCard(Flame, progress.streak, t('streakDays'))}
+        {statCard(Trophy, `${unlockedCount}/${achievements.length}`, t('achievements'))}
       </div>
 
       {/* Достижения с прогрессом */}
@@ -189,14 +191,14 @@ export function Profile({ progress, onReset, onOpenReview, onOpenStats }: Profil
                 }}
               >
                 <div
-                  className="w-10 h-10 rounded-full flex items-center justify-center text-base shrink-0"
+                  className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
                   style={{
                     background: done ? 'linear-gradient(135deg, #d4a017, #f97316)' : 'var(--bg-secondary)',
                     boxShadow: done ? '0 4px 10px -3px rgba(245,158,11,0.5)' : undefined,
                   }}
                   aria-hidden="true"
                 >
-                  {ach.icon}
+                  <ach.Icon size={18} strokeWidth={2.2} style={{ color: done ? '#fff' : 'var(--text-muted)' }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline justify-between gap-2">

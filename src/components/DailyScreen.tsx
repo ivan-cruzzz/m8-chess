@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Target, CheckCircle2, Gift, ArrowRight, Puzzle } from 'lucide-react';
+import { Target, CheckCircle2, Gift, ArrowRight, Puzzle, Check } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 import { puzzles, getPuzzleById } from '../data/puzzles';
 import { ChessPuzzle } from './ChessPuzzle';
@@ -114,7 +114,9 @@ export function DailyScreen({ progress, onPuzzleSolved, onPractice }: DailyScree
       </h3>
       {progress.daily.dailyPuzzleDone ? (
         <div className="glass-card p-6 text-center">
-          <div className="text-4xl mb-2" aria-hidden="true">✅</div>
+          <div className="mb-2 flex justify-center" aria-hidden="true" style={{ color: '#22c55e' }}>
+            <Check size={40} strokeWidth={2.6} />
+          </div>
           <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{t('dailyPuzzleDone')}</p>
         </div>
       ) : dailyPuzzle ? (

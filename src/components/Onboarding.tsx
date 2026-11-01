@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Crown, Target, Flame } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 
 interface OnboardingProps {
@@ -10,9 +11,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   const [step, setStep] = useState(0);
 
   const steps = [
-    { icon: '♟', title: t('welcome'), text: t('welcomeDesc') },
-    { icon: '🎯', title: t('solvePuzzles'), text: t('solvePuzzlesDesc') },
-    { icon: '🔥', title: t('keepStreak'), text: t('keepStreakDesc') },
+    { Icon: Crown, title: t('welcome'), text: t('welcomeDesc') },
+    { Icon: Target, title: t('solvePuzzles'), text: t('solvePuzzlesDesc') },
+    { Icon: Flame, title: t('keepStreak'), text: t('keepStreakDesc') },
   ];
 
   const current = steps[step];
@@ -20,7 +21,9 @@ export function Onboarding({ onComplete }: OnboardingProps) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{ background: 'var(--bg-primary)' }}>
       <div className="w-full max-w-sm text-center animate-fade-in">
-        <div className="text-7xl mb-6">{current.icon}</div>
+        <div className="mb-6 flex justify-center" aria-hidden="true" style={{ color: 'var(--color-gold)' }}>
+          <current.Icon size={64} strokeWidth={1.8} />
+        </div>
         <h1 className="text-2xl font-black mb-3" style={{ color: 'var(--text-primary)' }}>{current.title}</h1>
         <p className="mb-8 leading-relaxed" style={{ color: 'var(--text-muted)' }}>{current.text}</p>
 

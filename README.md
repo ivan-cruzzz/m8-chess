@@ -1,8 +1,8 @@
-# M8 🏆
+# M8
 
 Интерактивное приложение для обучения шахматам в стиле Duolingo.
 
-📸 [Презентация приложения (PDF)](docs/M8-Presentation.pdf) — скриншоты всех экранов и возможностей.
+[Презентация приложения (PDF)](docs/M8-Presentation.pdf) — скриншоты всех экранов и возможностей.
 
 ## Описание
 
@@ -10,20 +10,23 @@ M8 — это образовательное приложение, которо�
 
 ## Функции
 
-- 🎯 **30+ шахматных задач** по различным темам (мат в 1, вилка, связка, сквозной удар, открытый удар, мат в 2, отвлечение, эндшпиль и др.)
-- 📚 **13 уроков** с постепенным увеличением сложности
-- 🎮 **Интерактивная доска** с выделением доступных ходов (точки на пустых клетках, кольца на взятиях)
-- 🎵 **Звуковые эффекты** при правильных/неправильных ходах
-- 🎉 **Анимации конфетти** при прохождении урока
-- 📊 **Система прогресса** с XP, уровнями и сериями
-- 🏅 **Достижения** для мотивации
-- 📱 **Адаптивный дизайн** для телефонов и ПК
-- ⚫⚪ **Минималистичный дизайн** в чёрно-белых тонах
-- 🖱️ **Point-and-click управление** — нажми на фигуру, затем на клетку
-- 🔔 **Анимация тряски доски** при ошибке
-- 📴 **PWA + офлайн** — устанавливается как приложение, работает без интернета (service worker)
-- ♿ **Доступность** — клавиатурная навигация по доске, aria-метки, поддержка RU/EN и тёмной темы
-- 🔐 **Безопасный вход** — пароли хранятся в виде PBKDF2-хеша, прогресс отдельный у каждого пользователя
+- **65 шахматных задач** по различным темам (мат в 1, вилка, связка, сквозной удар, открытый удар, мат в 2, отвлечение, эндшпиль и др.)
+- **13 уроков** с постепенным увеличением сложности
+- **Тренажёр дебютов** — 6 дебютов с пошаговым вводом ходов и бонусом XP за первое прохождение
+- **Генератор матов** — бесконечные задачи «мат в 1» и «мат в 2» с проверкой движком
+- **Блиц-спринт** — 3 минуты, максимум задач, неверный ход отнимает 10 секунд, рекорд сохраняется
+- **Игра с другом** — режим hotseat: имена игроков, автопереворот доски, счёт серии, отмена хода
+- **Интерактивная доска** с выделением доступных ходов (точки на пустых клетках, кольца на взятиях) и point-and-click управлением
+- **Звуковые эффекты** при правильных/неправильных ходах
+- **Анимации конфетти** при прохождении урока и тряска доски при ошибке
+- **Система прогресса** с XP, уровнями и сериями; моя статистика: XP по темам, календарь активности, рекорды, счёт партий
+- **Достижения и лига** для мотивации
+- **Ежедневные миссии** и пазл дня
+- **Адаптивный дизайн** для телефонов и ПК, чёрно-белая тема со светлым и тёмным оформлением
+- **PWA + офлайн** — устанавливается как приложение, работает без интернета (service worker)
+- **Доступность** — клавиатурная навигация по доске, aria-метки, поддержка RU/EN
+- **Безопасный вход** — пароли хранятся в виде PBKDF2-хеша, прогресс отдельный у каждого пользователя
+- **Админ-панель** — дашборд, управление пользователями, выдача премиума и промокодов, экспорт/импорт данных (вход по паролю, хранимому только как хеш)
 
 ## Технологии
 
@@ -46,7 +49,7 @@ npm install
 npm run dev
 ```
 
-Откроется на `http://localhost:7200`
+Откроется на `http://localhost:5173`
 
 ## Сборка web-версии (PWA)
 
@@ -72,7 +75,7 @@ node scripts/gen-icons.mjs
 
 Включение Supabase (5 минут):
 1. Создайте проект на [supabase.com](https://supabase.com) (бесплатно).
-2. В SQL Editor проекта выполните скрипт `scripts/supabase-setup.sql` (таблицы + триггеры + RLS).
+2. В SQL Editor проекта выполните скрипт `scripts/supabase-setup.sql` (таблицы + триггеры + RLS) и миграцию `supabase/migrations/20261101000000_admin_tools.sql` (колонка `banned` + RLS для админа).
 3. Скопируйте `Settings → API` → Project URL и anon public key.
 4. Создайте файл `.env` (по образцу `.env.example`) и заполните `VITE_SUPABASE_URL` и `VITE_SUPABASE_ANON_KEY`.
 5. Пересоберите: `npm run build`.
@@ -93,7 +96,7 @@ node scripts/gen-icons.mjs
 
 Без ключа оплата показывает заглушку, приложение работает полностью.
 
-Тарифы (USD для шлюза): месяц $3.49 · год $21.9 · навсегда $44.9. Меняются в `supabase/functions/create-invoice/index.ts`.
+Тарифы в интерфейсе: месяц 299 ₽ · год 1 990 ₽ · навсегда 3 990 ₽ (меняются в `src/components/PremiumScreen.tsx`). USD-суммы для шлюза NOWPayments (месяц $3.49 · год $21.9 · навсегда $44.9) задаются в `supabase/functions/create-invoice/index.ts` — клиенту показываются только рубли.
 
 ---
 
@@ -159,7 +162,7 @@ npx cap sync
 npx cap open ios
 ```
 
-В Xcode: выберите устройство/симулятор и нажмите **Run** (▶).
+В Xcode: выберите устройство/симулятор и нажмите **Run**.
 
 ---
 
@@ -194,64 +197,98 @@ npm test                # только тесты
 npm run test:coverage   # покрытие AI-слоя (порог 85%)
 ```
 
-Тесты: контракт старого API движка, тактика (маты в 1–2), бюджет времени,
-персоны уровней, RPC-клиент воркера, кэш и сервис тренёра (46 тестов).
+Тесты (85 в 12 файлах): контракт старого API движка, тактика (маты в 1–2),
+бюджет времени, персоны уровней, RPC-клиент воркера, кэш и сервис тренёра,
+генератор матов, админ-аутентификация и хранилище панели, бэкфилл прогресса,
+легальность дебютных линий.
 
 ## Структура проекта
 
 ```
 chess-duolingo/
 ├── src/
-│   ├── ai/                 # AI-слой (без зависимостей от React)
-│   │   ├── engine/              # Движок: search, evaluation, levels, worker
-│   │   ├── coach/               # LLM-тренёр: service, cache, prompts
-│   │   └── client/              # engineClient: RPC над Web Worker
-│   ├── components/          # React-компоненты
-│   │   ├── ChessPuzzle.tsx       # Шахматная доска и логика задач
-│   │   ├── LessonMap.tsx         # Карта уроков
-│   │   ├── CoachTip.tsx          # Кнопка ИИ-тренёра (переиспользуемая)
-│   │   ├── Profile.tsx           # Профиль и достижения
-│   │   ├── Onboarding.tsx        # Экран приветствия
-│   │   └── Confetti.tsx          # Анимация конфетти
+│   ├── ai/                    # AI-слой (без зависимостей от React)
+│   │   ├── engine/                 # Движок: search, evaluation, levels, worker
+│   │   ├── coach/                  # LLM-тренёр: service, cache, prompts
+│   │   └── client/                 # engineClient: RPC над Web Worker
+│   ├── admin/                 # Логика админ-панели (без React)
+│   │   ├── auth.ts                 # Пароль и сессия админа (PBKDF2, TTL 30 мин)
+│   │   └── store.ts                # Данные панели: пользователи, планы, промокоды, дашборд
+│   ├── components/            # React-компоненты
+│   │   ├── ChessPuzzle.tsx         # Шахматная доска и логика задач
+│   │   ├── LessonMap.tsx           # Карта уроков
+│   │   ├── LessonPath.tsx          # Путь урока
+│   │   ├── PracticeScreen.tsx      # Меню режимов: практика, выживание, спринт, маты
+│   │   ├── PlayScreen.tsx          # Игра против ИИ и hotseat, история партий
+│   │   ├── DailyScreen.tsx         # Миссии и пазл дня
+│   │   ├── StatsScreen.tsx         # Моя статистика
+│   │   ├── OpeningsTrainer.tsx     # Тренажёр дебютов
+│   │   ├── ReviewScreen.tsx        # Тетрадь ошибок
+│   │   ├── PremiumScreen.tsx       # Экран подписки
+│   │   ├── CoachTip.tsx            # Кнопка ИИ-тренёра (переиспользуемая)
+│   │   ├── Profile.tsx             # Профиль, лига и достижения
+│   │   ├── StreakStrip.tsx         # Полоска серии
+│   │   ├── LeagueCard.tsx          # Карточка лиги
+│   │   ├── TransferCard.tsx        # Экспорт/импорт прогресса (CHUP1)
+│   │   ├── AuthScreen.tsx          # Регистрация и вход
+│   │   ├── Onboarding.tsx          # Экран приветствия
+│   │   ├── TheoryModal.tsx         # Теория к задаче
+│   │   ├── StaticBoard.tsx         # Статичная доска
+│   │   ├── Confetti.tsx            # Анимация конфетти
+│   │   └── admin/                  # AdminGate, AdminPanel, вкладки панели
+│   ├── contexts/              # Auth, I18n, Theme, Subscription
 │   ├── hooks/
 │   │   ├── useProgress.ts    # Логика прогресса (localStorage)
 │   │   ├── useEngine.ts      # Поиск хода ИИ в Web Worker
 │   │   └── useCoach.ts       # Запросы к LLM-тренёру
-│   ├── game/engine.ts       # Deprecated-обёртка над src/ai/engine
+│   ├── game/
+│   │   ├── engine.ts         # Deprecated-обёртка над src/ai/engine
+│   │   └── mateGen.ts        # Генератор и верификатор матов в 1/2
+│   ├── data/
+│   │   ├── lessons.ts        # 13 уроков, задачи уроков
+│   │   ├── puzzles.ts        # 65 задач практики
+│   │   ├── openings.ts       # 6 дебютов для тренажёра
+│   │   ├── theory.ts         # Теория по темам
+│   │   └── course.ts         # Курс новичка
+│   ├── lib/
+│   │   ├── pbkdf2.ts         # Хеширование паролей
+│   │   └── supabase.ts       # Клиент Supabase
+│   ├── services/
+│   │   └── cryptoPay.ts      # Оплата через NOWPayments
 │   ├── types/
-│   │   └── index.ts        # TypeScript типы
-│   ├── App.tsx             # Главный компонент
-│   ├── main.tsx            # Точка входа
-│   └── index.css           # Глобальные стили + анимации
+│   │   └── index.ts          # TypeScript типы
+│   ├── App.tsx               # Главный компонент и экраны
+│   ├── main.tsx              # Точка входа
+│   └── index.css             # Дизайн-система, токены, анимации
 ├── supabase/
-│   ├── functions/          # Edge functions (create-invoice, check-payment, ai-coach)
-│   └── migrations/         # SQL-миграции (coach_cache, coach_usage)
+│   ├── functions/            # Edge functions (create-invoice, check-payment, ai-coach)
+│   └── migrations/           # SQL-миграции (ai_coach, admin_tools)
 ├── docs/
-│   ├── ARCHITECTURE.md     # Слои и потоки данных
-│   ├── adr/                # Архитектурные решения (ADR-0001..0003)
+│   ├── ARCHITECTURE.md       # Слои и потоки данных
+│   ├── adr/                  # Архитектурные решения (ADR-0001..0003)
 │   └── IOS_BUILD.md
-├── src-tauri/              # Конфигурация Tauri (.exe)
-│   ├── src/main.rs         # Rust entry point
-│   ├── capabilities/       # Разрешения Tauri
-│   ├── Cargo.toml          # Rust dependencies
-│   └── tauri.conf.json     # Tauri config
-├── public/                 # Статические файлы
+├── src-tauri/                # Конфигурация Tauri (.exe)
+│   ├── src/main.rs           # Rust entry point
+│   ├── capabilities/         # Разрешения Tauri
+│   ├── Cargo.toml            # Rust dependencies
+│   └── tauri.conf.json       # Tauri config
+├── public/                   # Статические файлы
 │   ├── favicon.svg
-│   └── icon-*.png          # Иконки PWA (генерируются scripts/gen-icons.mjs)
-├── capacitor.config.ts     # Конфигурация Capacitor
+│   └── icon-*.png            # Иконки PWA (генерируются scripts/gen-icons.mjs)
+├── capacitor.config.ts       # Конфигурация Capacitor
 ├── package.json
 ├── README.md
-└── dist/                   # Production сборка (создаётся)
+└── dist/                     # Production сборка (создаётся)
 ```
 
 ## Скрипты администрирования (scripts/)
 
-Часть скриптов (`create-admin.mjs`, `set-npw-key.mjs`, `deploy-payments.mjs` и др.) работает с API Supabase и NOWPayments и требует переменных окружения:
+Часть скриптов (`create-admin.mjs`, `set-npw-key.mjs`, `deploy-payments.mjs`, `check-admin-login.mjs` и др.) работает с API Supabase и NOWPayments и требует переменных окружения:
 
 ```bash
-export SUPABASE_ACCESS_TOKEN=sbp_...   # Account → Access Tokens на supabase.com
-export ADMIN_PASSWORD=...              # пароль админ-аккаунта
-export NPW_API_KEY=...                 # ключ nowpayments.io (для set-npw-key.mjs)
+export SUPABASE_ACCESS_TOKEN=...   # Account → Access Tokens на supabase.com
+export ADMIN_PASSWORD=...          # читается скриптом из process.env, в репозитории пароля нет
+export NPW_API_KEY=...             # ключ nowpayments.io (для set-npw-key.mjs)
 ```
 
 ## Лицензия

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { Bot, Users, Flag, Undo2, RotateCcw } from 'lucide-react';
+import { Bot, Users, Flag, Undo2, RotateCcw, Trophy, Skull, Handshake } from 'lucide-react';
 import { Chess } from 'chess.js';
 import { useI18n } from '../contexts/I18nContext';
 import { useEngine } from '../hooks/useEngine';
@@ -183,9 +183,18 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
   const bottomLabel = orientation === 'white' ? whiteLabel : blackLabel;
   const topActive = orientation === 'white' ? g2.turn() === 'b' : g2.turn() === 'w';
 
-  const resultText = finished === 'draw' ? t('draw') : mode === 'ai'
-    ? (finished === color ? `🏆 ${t('won')}` : `💀 ${t('lost')}`)
-    : `🏆 ${finished === 'w' ? whiteLabel : blackLabel}`;
+  // Результат партии: иконка lucide + подпись (вместо эмодзи)
+  const resultText = finished === 'draw' ? (
+    <span className="inline-flex items-center gap-1.5"><Handshake size={16} strokeWidth={2.2} aria-hidden="true" />{t('draw')}</span>
+  ) : mode === 'ai' ? (
+    finished === color ? (
+      <span className="inline-flex items-center gap-1.5"><Trophy size={16} strokeWidth={2.2} className="text-gold-accent" aria-hidden="true" />{t('won')}</span>
+    ) : (
+      <span className="inline-flex items-center gap-1.5"><Skull size={16} strokeWidth={2.2} aria-hidden="true" />{t('lost')}</span>
+    )
+  ) : (
+    <span className="inline-flex items-center gap-1.5"><Trophy size={16} strokeWidth={2.2} className="text-gold-accent" aria-hidden="true" />{finished === 'w' ? whiteLabel : blackLabel}</span>
+  );
 
   /* ---------- Просмотр партии из истории ---------- */
   const openGame = (rec: GameRecord) => {
@@ -210,7 +219,10 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
 
         <div className="flex flex-col gap-3 mb-8">
           <div className="glass-card p-5">
-            <p className="font-bold mb-3" style={{ color: 'var(--text-primary)' }}>🤖 {t('playVsAi')}</p>
+            <p className="font-bold mb-3 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+              <Bot size={18} strokeWidth={2.2} aria-hidden="true" />
+              {t('playVsAi')}
+            </p>
             <div className="flex items-center gap-2 mb-3">
               <span className="text-xs shrink-0" style={{ color: 'var(--text-muted)' }}>{t('levelStrength')}</span>
               <div className="flex gap-1 flex-wrap">
@@ -277,8 +289,14 @@ export function PlayScreen({ history, onGameFinished }: PlayScreenProps) {
                 onClick={() => openGame(rec)}
                 className="glass-card p-3.5 flex items-center gap-3 text-left transition-transform active:scale-[0.98]"
               >
-                <span className="text-lg" aria-hidden="true">
-                  {rec.result === 'draw' ? '🤝' : (rec.mode === 'ai' ? (rec.result === rec.color ? '🏆' : '💀') : '♟')}
+                <span className="shrink-0 flex items-center" aria-hidden="true" style={{ color: 'var(--text-muted)' }}>
+                  {rec.result === 'draw'
+                    ? <Handshake size={18} strokeWidth={2.2} />
+                    : rec.mode === 'ai'
+                      ? (rec.result === rec.color
+                        ? <Trophy size={18} strokeWidth={2.2} style={{ color: 'var(--color-gold)' }} />
+                        : <Skull size={18} strokeWidth={2.2} />)
+                      : <span className="text-lg">♟</span>}
                 </span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>

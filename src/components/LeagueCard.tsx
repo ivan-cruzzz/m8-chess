@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { Medal, Crown } from 'lucide-react';
 import { useI18n } from '../contexts/I18nContext';
 import { leagueBots } from '../hooks/useProgress';
 import type { UserProgress } from '../types';
@@ -20,13 +21,21 @@ export function LeagueCard({ progress }: LeagueCardProps) {
 
   const myPlace = table.findIndex((r) => r.me) + 1;
   const divName = progress.leagueDiv === 1 ? t('leagueDiv1') : progress.leagueDiv === 2 ? t('leagueDiv2') : t('leagueDiv3');
-  const divIcon = progress.leagueDiv === 1 ? '🥇' : progress.leagueDiv === 2 ? '🥈' : '🥉';
+  // Медаль дивизиона: золото / серебро / бронза
+  const divIcon = (
+    <Medal
+      size={16}
+      strokeWidth={2.2}
+      aria-hidden="true"
+      style={{ color: progress.leagueDiv === 1 ? '#d4a017' : progress.leagueDiv === 2 ? '#94a3b8' : '#b45309' }}
+    />
+  );
 
   return (
     <div className="glass-card p-5">
       <div className="flex items-center justify-between mb-4">
         <div>
-          <p className="text-sm font-bold" style={{ color: 'var(--text-primary)' }}>
+          <p className="text-sm font-bold flex items-center gap-1.5" style={{ color: 'var(--text-primary)' }}>
             {divIcon} {t('leagueTitle')}
           </p>
           <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{t('leaguePromo')}</p>
@@ -51,7 +60,10 @@ export function LeagueCard({ progress }: LeagueCardProps) {
             <span className="w-6 text-xs text-right shrink-0" style={{ color: i < 3 ? '#22c55e' : i >= 7 ? 'var(--color-danger)' : 'var(--text-muted)' }}>
               {i + 1}
             </span>
-            <span className="flex-1 truncate">{row.me ? `${row.name} 👑` : row.name}</span>
+            <span className="flex-1 truncate flex items-center gap-1">
+              {row.name}
+              {row.me && <Crown size={13} strokeWidth={2.4} aria-hidden="true" style={{ color: 'var(--color-gold)' }} />}
+            </span>
             <span className="text-xs font-bold shrink-0" style={{ color: row.me ? 'var(--color-gold)' : 'var(--text-muted)' }}>
               {row.xp} XP
             </span>
